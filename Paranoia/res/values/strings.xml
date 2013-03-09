@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="app_name">MainActivity</string>
+  <string name="welcome">Welcome to Paranoia!</string>
+  <string name="how_to_play">
+    How to play: You may select 'p' at any time to get a display of your statistics.  Always choose the least dangerous option.  Continue doing this until you win.  At times you will use a skill or engage in combat and and will be informed of the outcome.  These sections will be self explanatory.
+  </string>
+  <string name="how_to_die">
+    HOW TO DIE: As Philo-R-DMD you will die at times during the adventure. When this happens you will be given an new clone at a particular location.  The new Philo-R will usually have to retrace some of the old Philo-R's path; hopefully he won't make the same mistake as his predecessor.
+  </string>
+  <string name="how_to_win">
+    HOW TO WIN: Simply complete the mission before you expend all six clones.  If you make it, congratulations.  If not, you can try again later.
+  </string>
+  <string name="page_1">You wake up face down on the red and pink checked E-Z-Kleen linoleum floor. You recognise the pattern, it's the type preferred in the internal security briefing cells.  When you finally look around you, you see that you are alone in a large mission briefing room.
+  </string>
+  <string name="page_57">
+    In the centre of the room is a table and a single chair.  There is an Orange folder on the table top, but you can't make out the lettering on it.
+  </string>
+  <string name="page_57_c1">You sit down and read the folder.</string>
+  <string name="page_57_c2">You leave the room.</string>
+
+
+</resources>
