@@ -20,15 +20,16 @@ MAXKILL = 7     # The max number of Ultraviolets you can kill
 
 class Session:
 
-state = dict(clone=1, page=1, computer_request=0, ultra_violet=0,
-             action_doll=0, hit_points=10, read_letter=0,
-             plato_clone=3, blast_door=0, killer_count=0)
+#state = dict(clone=1, page=1, computer_request=0, ultra_violet=0,
+#             action_doll=0, hit_points=10, read_letter=0,
+#             plato_clone=3, blast_door=0, killer_count=0)
 
     def __init__(self, s):
         self.session = s
 
 
-
+    def clone():
+        return self.clone
 
 
 
@@ -37,76 +38,121 @@ class Response:
     def __init__(self, e):
         self.event = e
 
-    def build_speechlet_response(output, should_end_session):
+    def __call__(self):
+        return {
+            'version': '1.0',
+            'sessionAttributes': self.session,
+            'response': {
+                'outputSpeech': self.outputSpeech(),
+                'shouldEndSession': self.end_session
+            }
+        }
+
+    def outputSpeech():
         return {
             'outputSpeech': {
                 'type': 'PlainText',
                 'text': output
             },
-            'shouldEndSession': should_end_session
         }
-
-    def build_response(session_attributes, speechlet_response):
-        return {
-            'version': '1.0',
-            'sessionAttributes': session_attributes,
-            'response': speechlet_response
-        }
-
-    def emit():
-        return
-
 
 
 
 def on_intent(intent_request, session):
     logging.info("on_intent requestId=" + intent_request['requestId'] + ", sessionId=" + session['sessionId'])
-            intent = intent_request['intent']
-                intent_name = intent_request['intent']['name']
-                    if intent_name == "HelloName":
-                                return hello_name(intent, session)
-                                elif intent_name == "AMAZON.HelpIntent":
-                                            return get_welcome_response()
-                                            elif intent_name == "AMAZON.CancelIntent" or intent_name == "AMAZON.StopIntent":
-                                                        return handle_session_end_request()
-                                                        else:
-                                                                    raise ValueError("Invalid intent")
+    intent = intent_request['intent']
+    intent_name = intent_request['intent']['name']
+    if intent_name == "HelloName":
+        return hello_name(intent, session)
+    elif intent_name == "AMAZON.HelpIntent":
+        return get_welcome_response()
+    elif intent_name == "AMAZON.CancelIntent" or intent_name == "AMAZON.StopIntent":
+        return handle_session_end_request()
+    else:
+        raise ValueError("Invalid intent")
+
+
+class EventHandler:
+
+    card_title = "Paranoia"
+
+    def __init__(self, event, context):
+        self.event = event
+        self.context = context
+
+    def __call__(self):
+        return {
+            'version': '1.0',
+            'sessionAttributes': self.session,
+            'response': {
+                'outputSpeech': self.outputSpeech(),
+                'shouldEndSession': self.end_session
+            }
+        }
+
+    def outputSpeech():
+        return {
+            'outputSpeech': {
+                'type': 'PlainText',
+                'text': output
+            },
+        }
+
+
+class LaunchHandler(EventHandler):
+    reprompt_text = None
+    should_end_session = True
+    session_attributes = {}
+    output = """
+Welcome to Paranoia!
+HOW TO PLAY:
+  Just press <RETURN> until you are asked to make a choice.
+  Select 'a' or 'b' or whatever for your choice, then press <RETURN>.
+  You may select 'p' at any time to get a display of your statistics.
+  Always choose the least dangerous option.  Continue doing this until you win.
+  At times you will use a skill or engage in combat and and will be informed of
+  the outcome.  These sections will be self explanatory.
+HOW TO DIE:
+  As Philo-R-DMD you will die at times during the adventure.
+  When this happens you will be given an new clone at a particular location.
+  The new Philo-R will usually have to retrace some of the old Philo-R's path;
+  hopefully he won't make the same mistake as his predecessor.
+HOW TO WIN:
+  Simply complete the mission before you expend all six clones.
+  If you make it, congratulations.
+  If not, you can try again later.
+"""
 
 
 
+class IntentHandler(EventHandler):
+    pass
 
 
-def handler(event, context):
-    logging.info("event.session.application.applicationId={}"
-                 .format(event['session']['application']['applicationId']))
+class SessionEndHandler(EventHandler):
+    pass
+
+
+
+def main(event, context):
+
+    logging.info("in event dispatcher, applicationId={}"
+        .format(event['session']['application']['applicationId']))
 
     dispatch = {
-        "LaunchRequest":   , 
-        "IntentRequest": ,
-        "SessionEndedRequest": 
+        "LaunchRequest": LaunchHandler, 
+        "IntentRequest": IntentHandler,
+        "SessionEndedRequest": SessionEndHandler,
     }
 
     if event['session']['new']:
-        #on_session_started({'requestId': event['request']['requestId']}, event['session'])
-        on_session_started(event)
+        logging.info("new session, requestId={}, sessionId={}"
+            .format(event['request']['requestId'], event['session']['sessionId'])
 
-    if event['request']['type'] == "LaunchRequest":
-        return on_launch(event['request'], event['session'])
-
-    elif event['request']['type'] == "IntentRequest":
-        return on_intent(event['request'], event['session'])
-
-    elif event['request']['type'] == "SessionEndedRequest":
-        return on_session_ended(event['request'], event['session'])
-
-### main()
-### {
-### 	srand(time(0));
-### 	instructions();	more();
-### 	character();	more();
-### 	while((page=next_page(page))!=0)	more();
-### }
-
+    event_type = event['request']['type']
+    event_handler_class = dispatch[event_type]
+    event_handler = event_handler_class(event, context)
+    return event_handler()
 
 
 
