@@ -1,10 +1,9 @@
 """
-This is a solo paranoia game taken from the Jan/Feb issue (No 77) of
-"SpaceGamer/FantasyGamer" magazine, Article by Sam Shirley.
+Welcome, troubleshooter! This is a solo paranoia game taken from the Jan/Feb
+issue (#77) of "SpaceGamer/FantasyGamer" magazine, Article by Sam Shirley.
 
-Implemented in C on Vax 11/780 under UNIX by Tim Lister
-
-Adapted and reimplemented in Python for Amazon Alexa by John Trammell,
+It was originally implemented in C on Vax 11/780 under UNIX by Tim Lister. It
+was adapted and reimplemented in Python for Amazon Alexa by John Trammell,
 <john.trammell@gmail.com>. See https://github.com/trammell/paranoia for full
 source code, probably.
 
@@ -12,10 +11,6 @@ This is a public domain adventure and may not be sold for profit.
 """
 
 import logging
-
-MOXIE   = 13
-AGILITY = 15
-MAXKILL = 7     # The max number of Ultraviolets you can kill
 
 
 class Session:
@@ -27,8 +22,7 @@ class Session:
     def __init__(self, s):
         self.session = s
 
-
-    def clone():
+    def clone(self):
         return self.clone
 
 
@@ -48,31 +42,31 @@ class Response:
             }
         }
 
-    def outputSpeech():
+    def outputSpeech(self):
         return {
             'outputSpeech': {
                 'type': 'PlainText',
-                'text': output
+                'text': self.output()
             },
         }
 
 
 
-def on_intent(intent_request, session):
-    logging.info("on_intent requestId=" + intent_request['requestId'] + ", sessionId=" + session['sessionId'])
-    intent = intent_request['intent']
-    intent_name = intent_request['intent']['name']
-    if intent_name == "HelloName":
-        return hello_name(intent, session)
-    elif intent_name == "AMAZON.HelpIntent":
-        return get_welcome_response()
-    elif intent_name == "AMAZON.CancelIntent" or intent_name == "AMAZON.StopIntent":
-        return handle_session_end_request()
-    else:
-        raise ValueError("Invalid intent")
+#def on_intent(intent_request, session):
+#    logging.info("on_intent requestId=" + intent_request['requestId'] + ", sessionId=" + session['sessionId'])
+#    intent = intent_request['intent']
+#    intent_name = intent_request['intent']['name']
+#    if intent_name == "HelloName":
+#        return hello_name(intent, session)
+#    elif intent_name == "AMAZON.HelpIntent":
+#        return get_welcome_response()
+#    elif intent_name == "AMAZON.CancelIntent" or intent_name == "AMAZON.StopIntent":
+#        return handle_session_end_request()
+#    else:
+#        raise ValueError("Invalid intent")
 
 
-class EventHandler:
+class SkillEventHandler:
 
     card_title = "Paranoia"
 
@@ -83,55 +77,91 @@ class EventHandler:
     def __call__(self):
         return {
             'version': '1.0',
-            'sessionAttributes': self.session,
+            'sessionAttributes': self.session(),
             'response': {
                 'outputSpeech': self.outputSpeech(),
                 'shouldEndSession': self.end_session
             }
         }
 
-    def outputSpeech():
+    def session(self):
+        return []
+
+    def outputSpeech(self):
         return {
             'outputSpeech': {
                 'type': 'PlainText',
-                'text': output
+                'text': self.output()
             },
         }
 
+    def output(self):
+        raise ValueError("Invalid intent")
+ 
 
-class LaunchHandler(EventHandler):
+class LaunchHandler(SkillEventHandler):
     reprompt_text = None
     should_end_session = True
     session_attributes = {}
+    "outputSpeech": {
+                "type": "SSML",
+                    "ssml": "<speak>This output speech uses SSML.</speak>"
+                    }
     output = """
+    <speak>
 Welcome to Paranoia!
-HOW TO PLAY:
-  Just press <RETURN> until you are asked to make a choice.
-  Select 'a' or 'b' or whatever for your choice, then press <RETURN>.
-  You may select 'p' at any time to get a display of your statistics.
-  Always choose the least dangerous option.  Continue doing this until you win.
-  At times you will use a skill or engage in combat and and will be informed of
-  the outcome.  These sections will be self explanatory.
-HOW TO DIE:
-  As Philo-R-DMD you will die at times during the adventure.
-  When this happens you will be given an new clone at a particular location.
-  The new Philo-R will usually have to retrace some of the old Philo-R's path;
-  hopefully he won't make the same mistake as his predecessor.
-HOW TO WIN:
-  Simply complete the mission before you expend all six clones.
-  If you make it, congratulations.
-  If not, you can try again later.
+
+<emphasis level="moderate">HOW TO PLAY</emphasis>
+
+Just listen until you are asked to make a choice.
+Select 'a' or 'b' or whatever for your choice.
+You may say "statistics" at any time to get a display of your statistics.
+
+Always choose the least dangerous option.  Continue doing this until you win.
+At times you will use a skill or engage in combat and and will be informed of
+the outcome.  These sections will be self explanatory.
+
+<emphasis level="moderate">HOW TO DIE</emphasis>
+
+As Philo-R-DMD you will die at times during the adventure.
+
+When this happens you will be given an new clone at a particular location.
+The new Philo-R will usually have to retrace some of the old Philo-R's path;
+hopefully he won't make the same mistake as his predecessor.
+
+<emphasis level="moderate">HOW TO WIN</emphasis>
+
+Simply complete the mission before you expend all six clones.
+If you make it, congratulations.
+If not, you can try again later.
+</speak>
 """
 
 
-
-class IntentHandler(EventHandler):
+class SessionEndHandler(SkillEventHandler):
     pass
 
 
-class SessionEndHandler(EventHandler):
-    pass
+class SkillFailHandler(SkillEventHandler):
+    def __call__(self):
+        raise ValueError("Invalid intent")
 
+
+class ParanoiaIntentHandler(SkillEventHandler):
+
+    MOXIE   = 13
+    AGILITY = 15
+    MAXKILL = 7     # The max number of Ultraviolets you can kill
+
+
+foo = ParanoiaIntentHandler()
+### """
+### You wake up face down on the red and pink checked E-Z-Kleen linoleum floor.
+### You recognise the pattern, it's the type preferred in the internal
+### security briefing cells.  When you finally look around you, you see that you
+### are alone in a large mission briefing room.
+### """
+### #return 57;
 
 
 def main(event, context):
@@ -147,14 +177,10 @@ def main(event, context):
 
     if event['session']['new']:
         logging.info("new session, requestId={}, sessionId={}"
-            .format(event['request']['requestId'], event['session']['sessionId'])
+            .format(event['request']['requestId'], event['session']['sessionId']))
 
-    event_type = event['request']['type']
-    event_handler_class = dispatch[event_type]
-    event_handler = event_handler_class(event, context)
-    return event_handler()
-
-
+    handler_class = dispatch.get(event["request"]["type"], SkillFailHandler)
+    return handler_class(event, context)()
 
 
 ### # new_clone(resume)
@@ -182,27 +208,6 @@ def main(event, context):
 ###     for (i=number;i>0;i--):
 ###         total += rand() % faces+1;
 ###     return total;
-### 
-### instructions()
-### {
-### 	printf("\n\n\n\nWelcome to Paranoia!\n\n");
-### 	printf("HOW TO PLAY:\n\n");
-### 	printf("  Just press <RETURN> until you are asked to make a choice.\n");
-### 	printf("  Select 'a' or 'b' or whatever for your choice, then press <RETURN>.\n");
-### 	printf("  You may select 'p' at any time to get a display of your statistics.\n");
-### 	printf("  Always choose the least dangerous option.  Continue doing this until you win.\n");
-### 	printf("  At times you will use a skill or engage in combat and and will be informed of\n");
-### 	printf("  the outcome.  These sections will be self explanatory.\n\n");
-### 	printf("HOW TO DIE:\n\n");
-### 	printf("  As Philo-R-DMD you will die at times during the adventure.\n");
-### 	printf("  When this happens you will be given an new clone at a particular location.\n");
-### 	printf("  The new Philo-R will usually have to retrace some of the old Philo-R\'s path;\n");
-### 	printf("  hopefully he won\'t make the same mistake as his predecessor.\n\n");
-### 	printf("HOW TO WIN:\n\n");
-### 	printf("  Simply complete the mission before you expend all six clones.\n");
-### 	printf("  If you make it, congratulations.\n");
-### 	printf("  If not, you can try again later.\n");
-### }
 ### 
 ### ### character()
 ### ### {
@@ -243,67 +248,87 @@ def main(event, context):
 ### 
 ### 
 ### 
-### """
-### You wake up face down on the red and pink checked E-Z-Kleen linoleum floor.
-### You recognise the pattern, it's the type preferred in the internal
-### security briefing cells.  When you finally look around you, you see that you
-### are alone in a large mission briefing room.
-### """
-### #return 57;
-### 
-### page57()
-### {
-### 	printf("In the centre of the room is a table and a single chair.  There is an Orange\n");
-### 	printf("folder on the table top, but you can\'t make out the lettering on it.\n");
-### 	return choose(11,"You sit down and read the folder",12,"You leave the room");
-### }
-### 
-### 
-### page2()
-### {
-### 	printf("\"Greetings,\" says the kindly Internal Security self incrimination expert who\n");
-### 	printf("meets you at the door, \"How are we doing today?\"  He offers you a doughnut\n");
-### 	printf("and coffee and asks what brings you here.  This doesn\'t seem so bad, so you\n");
-### 	printf("tell him that you have come to confess some possible security lapses.  He\n");
-### 	printf("smiles knowingly, deftly catching your coffee as you slump to the floor.\n");
-### 	printf("\"Nothing to be alarmed about; it\'s just the truth serum,\" he says,\n");
-### 	printf("dragging you back into a discussion room.\n");
-### 	printf("The next five hours are a dim haze, but you can recall snatches of conversation\n");
-### 	printf("about your secret society, your mutant power, and your somewhat paranoid\n");
-### 	printf("distrust of The Computer.  This should explain why you are hogtied and moving\n");
-### 	printf("slowly down the conveyer belt towards the meat processing unit in Food\n");
-### 	printf("Services.\n");
+
+
+
+briefing_room = ParanoiaIntentHandler(1)
+briefing_room.output = """
+You wake up face down on the red and pink checked <say-as
+interpret-as="character">EZ</say-as> clean linoleum floor.  You recognise the
+pattern, it's the type preferred in the internal security briefing cells.  When
+you finally look around you, you see that you are alone in a large mission
+briefing room.
+"""
+briefing_room.next = 57
+
+
+briefing_room_folder = ParanoiaIntentHandler(57)
+briefing_room_folder.output = """
+In the center of the room is a table and a single chair.  There is an Orange
+folder on the table top, but you can't make out the lettering on it.
+"""
+briefing_room_folder.next = [
+    (11, "You sit down and read the folder"),
+    (12, "You leave the room"),
+]
+
+
+# 2
+"""
+"Greetings," says the kindly Internal Security self incrimination expert who
+meets you at the door, "How are we doing today?"  He offers you a doughnut
+and coffee and asks what brings you here.  This doesn't seem so bad, so you
+tell him that you have come to confess some possible security lapses.  He
+smiles knowingly, deftly catching your coffee as you slump to the floor.
+"Nothing to be alarmed about; it's just the truth serum," he says,
+dragging you back into a discussion room.
+
+The next five hours are a dim haze, but you can recall snatches of conversation
+about your secret society, your mutant power, and your somewhat paranoid
+distrust of The Computer.  This should explain why you are hogtied and moving
+slowly down the conveyer belt towards the meat processing unit in Food
+Services.
+
 ### 	if (computer_request==1) return new_clone(45);
 ### 	else 			 return new_clone(32);
 ### }
-### 
-### page3()
-### {
-### 	printf("You walk to the nearest Computer terminal and request more information about\n");
-### 	printf("Christmas.  The Computer says, \"That is an A-1 ULTRAVIOLET ONLY IMMEDIATE\n");
-### 	printf("TERMINATION classified topic.  What is your clearance please, Troubleshooter?\"\n");
-### 	return choose(4,"You give your correct clearance",5,"You lie and claim Ultraviolet clearance");
-### }
-### 
-### page4()
-### {
-### 	printf("\"That is classified information, Troubleshooter, thank you for your inquiry.\n");
-### 	printf(" Please report to an Internal Security self incrimination station as soon as\n");
-### 	printf(" possible.\"\n");
-### 	return 9;
-### }
-### 
-### page5()
-### {
-### 	printf("The computer says, \"Troubleshooter, you are not wearing the correct colour\n");
-### 	printf("uniform.  You must put on an Ultraviolet uniform immediately.  I have seen to\n");
-### 	printf("your needs and ordered one already; it will be here shortly.  Please wait with\n");
-### 	printf("your back to the wall until it arrives.\"  In less than a minute an infrared\n");
-### 	printf("arrives carrying a white bundle.  He asks you to sign for it, then hands it to\n");
-### 	printf("you and stands back, well outside of a fragmentation grenade\'s blast radius.\n");
-### 	return choose(6, "You open the package and put on the uniform", 7, "You finally come to your senses and run for it");
-### }
-### 
+
+"""
+
+#3
+"""
+You walk to the nearest Computer terminal and request more information about
+Christmas.  The Computer says, <computer>That is an A-1 ULTRAVIOLET ONLY
+IMMEDIATE TERMINATION classified topic.  What is your clearance please,
+Troubleshooter?</computer>
+"""
+return choose(4,"You give your correct clearance",5,"You lie and claim Ultraviolet clearance");
+
+
+
+
+#4
+"""
+<computer>"That is classified information, Troubleshooter, thank you for your
+inquiry. Please report to an Internal Security self incrimination station as
+soon as possible."</computer>
+"""
+'next': return 9;
+
+#5
+"""
+The computer says, <computer>"Troubleshooter, you are not wearing the correct
+colour uniform.  You must put on an Ultraviolet uniform immediately.  I have
+seen to your needs and ordered one already; it will be here shortly.  Please
+wait with your back to the wall until it arrives."</computer>
+In less than a minute an infrared arrives carrying a white bundle.  He asks you
+to sign for it, then hands it to you and stands back, well outside of a
+fragmentation grenade's blast radius.
+"""
+'next':
+return choose(6, "You open the package and put on the uniform", 7, "You finally come to your senses and run for it");
+
+
 ### page6()
 ### {
 ### 	printf("The uniform definitely makes you look snappy and pert.  It really looks\n");
@@ -343,25 +368,25 @@ def main(event, context):
 ### 	return 8;
 ### }
 ### 
-### page8()
-### {
-### 	printf("\"Now, about your question, citizen.  Christmas was an old world marketing ploy\n");
-### 	printf("to induce lower clearance citizens to purchase vast quantities of goods, thus\n");
-### 	printf("accumulation a large amount of credit under the control of a single class of\n");
-### 	printf("citizen known as Retailers.  The strategy used is to imply that all good\n");
-### 	printf("citizens give gifts during Christmas, thus if one wishes to be a valuable\n");
-### 	printf("member of society one must also give gifts during Christmas.  More valuable\n");
-### 	printf("gifts make one a more valuable member, and thus did the Retailers come to\n");
-### 	printf("control a disproportionate amount of the currency.  In this way Christmas\n");
-### 	printf("eventually caused the collapse of the old world.  Understandably, Christmas\n");
-### 	printf("has been declared a treasonable practice in Alpha Complex.\n");
-### 	printf("Thank you for your inquiry.\"\n");
-### 	printf("You continue on your way to GDH7-beta.\n");
-### 	return 10;
-### }
-### 
-### page9()
-### {
+#8
+"""
+<computer>"Now, about your question, citizen.  Christmas was an old world marketing ploy
+to induce lower clearance citizens to purchase vast quantities of goods, thus
+accumulation a large amount of credit under the control of a single class of
+citizen known as Retailers.  The strategy used is to imply that all good
+citizens give gifts during Christmas, thus if one wishes to be a valuable
+member of society one must also give gifts during Christmas.  More valuable
+gifts make one a more valuable member, and thus did the Retailers come to
+control a disproportionate amount of the currency.  In this way Christmas
+eventually caused the collapse of the old world.  Understandably, Christmas
+has been declared a treasonable practice in Alpha Complex.
+Thank you for your inquiry."
+You continue on your way to <spell>GDH7</spell>-beta.
+"""
+
+'next':	10
+
+#9
 ### 	int choice;
 ### 	printf("As you walk toward the tubecar that will take you to GDH7-beta, you pass one\n");
 ### 	printf("of the bright blue and orange Internal Security self incrimination stations.\n");
