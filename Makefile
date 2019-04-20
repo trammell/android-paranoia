@@ -1,9 +1,5 @@
 usage:
-	@echo "usage: make [clean|install]"
-
-clean:
-
-install:
+	@echo "usage: make [test]"
 
 test:
 	yamllint src/paranoia.yml
