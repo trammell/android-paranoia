@@ -804,19 +804,18 @@ page44()
 }
 
 page45:
-  text:
-    - "Hrank Hrank," snorts the alarm in your living quarters.  Something
-    is up.\n");
-	printf("You look at the monitor above the bathroom mirror and see the message you have\n");
-	printf("been waiting for all these years.  \"ATTENTION TROUBLESHOOTER, YOU ARE BEING\n");
-	printf("ACTIVATED. PLEASE REPORT IMMEDIATELY TO MISSION ASSIGNMENT ROOM A17/GAMMA/LB22.\n");
-	printf("THANK YOU. THE COMPUTER IS YOUR FRIEND.\"  When you arrive at mission\n");
-	printf("assignment room A17-gamma/LB22 you are given your previous clone\'s\n");
-	printf("remaining possessions and notebook.  You puzzle through your predecessor\'s\n");
-	printf("cryptic notes, managing to decipher enough to lead you to the tube station and\n");
-	printf("the tube car to GDH7-beta.\n");
-	return 10;
-}
+  text: >
+    "Hrank Hrank," snorts the alarm in your living quarters.  Something is
+    up. You look at the monitor above the bathroom mirror and see the
+    message you have been waiting for all these years.  "ATTENTION
+    TROUBLESHOOTER, YOU ARE BEING ACTIVATED. PLEASE REPORT IMMEDIATELY TO
+    MISSION ASSIGNMENT ROOM A17/GAMMA/LB22. THANK YOU. THE COMPUTER IS YOUR
+    FRIEND."  When you arrive at mission assignment room A17-gamma/LB22 you
+    are given your previous clone's remaining possessions and notebook.
+    You puzzle through your predecessor's cryptic notes, managing to
+    decipher enough to lead you to the tube station and the tube car to
+    GDH7-beta.
+  goto: page10
 
 page46:
   text: >
