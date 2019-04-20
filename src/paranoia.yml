@@ -23,71 +23,47 @@ variables:
   - hit_points: 10
   - read_letter: 0
   - plato_clone: 3
-#int blast_door=0;
-#int killer_count=0;
-
-# new_clone(resume)
-# int resume;
-# {
-# 	printf("\nClone %d just died.\n",clone);
-# 	if (++clone>6)
-# 	{
-# 		printf("\n*** You Lose ***\n\nAll your clones are dead.  Your name has been stricken from the records.\n\n			THE END\n");
-# 		return 0;
-# 	}
-# 	else
-# 	{
-# 		printf("Clone %d now activated.\n",clone);
-# 		ultra_violet=0;
-# 		action_doll=0;
-# 		hit_points=10;
-# 		killer_count=0;
-# 		return resume;
-# 	}
-# }
+  - blast_door: 0
+  - killer_count: 0
 
 died:
   text: Clone {{ clone }}  just died.
-  eval: clone = clone + 1
-        if (clone>6)
+  eval: >
+    clone = clone + 1
+    if  clone > 6:
            *** You Lose ***
            All your clones are dead.
            Your name has been stricken from the records.
            THE END
            goto end
-# 	else
-# 	{
-# 		printf("Clone %d now activated.\n",clone);
-# 		ultra_violet=0;
-# 		action_doll=0;
-# 		hit_points=10;
-# 		killer_count=0;
-# 		return resume;
-# 	}
-# }
+    else:
+          print("Clone %d now activated.\n",clone);
+          ultra_violet=0;
+          action_doll=0;
+          hit_points=10;
+          killer_count=0;
+          return resume;
 
+instructions:
+  text: |
+    Welcome to Paranoia!
+    HOW TO PLAY:
+    Just press <RETURN> until you are asked to make a choice.
+    Select 'a' or 'b' or whatever for your choice, then press <RETURN>.
+    You may select 'p' at any time to get a display of your statistics.;
+    Always choose the least dangerous option.  Continue doing this until
+    you win.  At times you will use a skill or engage in combat and and
+    will be informed of the outcome.  These sections will be self
+    explanatory.
+    HOW TO DIE:
+    As Philo-R-DMD you will die at times during the adventure.  When this
+    happens you will be given an new clone at a particular location.  The
+    new Philo-R will usually have to retrace some of the old Philo-R's
+    path; hopefully he won't make the same mistake as his predecessor.
+    HOW TO WIN:
+    Simply complete the mission before you expend all six clones.  If you
+    make it, congratulations.  If not, you can try again later.
 
-
-instructions()
-{
-	printf("\n\n\n\nWelcome to Paranoia!\n\n");
-	printf("HOW TO PLAY:\n\n");
-	printf("  Just press <RETURN> until you are asked to make a choice.\n");
-	printf("  Select 'a' or 'b' or whatever for your choice, then press <RETURN>.\n");
-	printf("  You may select 'p' at any time to get a display of your statistics.\n");
-	printf("  Always choose the least dangerous option.  Continue doing this until you win.\n");
-	printf("  At times you will use a skill or engage in combat and and will be informed of\n");
-	printf("  the outcome.  These sections will be self explanatory.\n\n");
-	printf("HOW TO DIE:\n\n");
-	printf("  As Philo-R-DMD you will die at times during the adventure.\n");
-	printf("  When this happens you will be given an new clone at a particular location.\n");
-	printf("  The new Philo-R will usually have to retrace some of the old Philo-R\'s path;\n");
-	printf("  hopefully he won\'t make the same mistake as his predecessor.\n\n");
-	printf("HOW TO WIN:\n\n");
-	printf("  Simply complete the mission before you expend all six clones.\n");
-	printf("  If you make it, congratulations.\n");
-	printf("  If not, you can try again later.\n");
-}
 
 character()
 {
@@ -154,7 +130,6 @@ page3:
       goto: page4
     - text: You lie and claim Ultraviolet clearance.
       goto: page5
-}
 
 page4:
   text:
@@ -162,7 +137,6 @@ page4:
     inquiry. Please report to an Internal Security self incrimination
     station as soon as possible.
   goto: page9
-}
 
 page5:
   text:
@@ -264,7 +238,7 @@ page10:
     first Troubleshooter to take a fast tube ride to nowhere.
   eval: >
     if (ultra_violet==0):
-      choice=choose(3,"You decide to ask The Computer about Christmas using a nearby terminal",10,"You think you have the route worked out, so you\'ll board a tube train");
+      choice=choose(3,"You decide to ask The Computer about Christmas using a nearby terminal",10,"You think you have the route worked out, so you'll board a tube train");
 		if (choice==3) return choice;
 	};
 	printf("You nervously select a tubecar and step aboard.\n");
@@ -281,34 +255,32 @@ page10:
 }
 
 page11:
-  text:
-{
-	printf("The printing on the folder says \"Experimental Self Briefing.\"\n");
-	printf("You open it and begin to read the following:\n");
-	printf("Step 1: Compel the briefing subject to attend the briefing.\n");
-	printf("        Note: See Experimental Briefing Sub Form Indigo-WY-2,\n");
-	printf("        \'Experimental Self Briefing Subject Acquisition Through The Use Of\n");
-	printf("         Neurotoxin Room Foggers.\'\n");
-	printf("Step 2: Inform the briefing subject that the briefing has begun.\n");
-	printf("        ATTENTION: THE BRIEFING HAS BEGUN.\n");
-	printf("Step 3: Present the briefing material to the briefing subject.\n");
-	printf("        GREETINGS TROUBLESHOOTER.\n");
-	printf("        YOU HAVE BEEN SPECIALLY SELECTED TO SINGLEHANDEDLY\n");
-	printf("        WIPE OUT A DEN OF TRAITOROUS CHRISTMAS ACTIVITY.  YOUR MISSION IS TO\n");
-	printf("        GO TO GOODS DISTRIBUTION HALL 7-BETA AND ASSESS ANY CHRISTMAS ACTIVITY\n");
-	printf("        YOU FIND THERE.  YOU ARE TO INFILTRATE THESE CHRISTMAS CELEBRANTS,\n");
-	printf("        LOCATE THEIR RINGLEADER, AN UNKNOWN MASTER RETAILER, AND BRING HIM\n");
-	printf("        BACK FOR EXECUTION AND TRIAL.  THANK YOU.  THE COMPUTER IS YOUR FRIEND.\n");
-	printf("Step 4: Sign the briefing subject\'s briefing release form to indicate that\n");
-	printf("        the briefing subject has completed the briefing.\n");
-	printf("        ATTENTION: PLEASE SIGN YOUR BRIEFING RELEASE FORM.\n");
-	printf("Step 5: Terminate the briefing\n");
-	printf("        ATTENTION: THE BRIEFING IS TERMINATED.\n");
-	more();
-	printf("You walk to the door and hold your signed briefing release form up to the\n");
-	printf("plexiglass window.  A guard scrutinises it for a moment and then slides back\n");
-	printf("the megabolts holding the door shut.  You are now free to continue the\n");
-	printf("mission.\n");
+  text: >
+    The printing on the folder says "Experimental Self Briefing." You open
+    it and begin to read the following:
+      Step 1: Compel the briefing subject to attend the briefing.
+       Note: See Experimental Briefing Sub Form Indigo-WY-2,\n");
+      \'Experimental Self Briefing Subject Acquisition Through The Use Of\n");
+       Neurotoxin Room Foggers.\'\n");
+"Step 2: Inform the briefing subject that the briefing has begun.\n");
+       ATTENTION: THE BRIEFING HAS BEGUN.\n");
+"Step 3: Present the briefing material to the briefing subject.\n");
+       GREETINGS TROUBLESHOOTER.\n");
+       YOU HAVE BEEN SPECIALLY SELECTED TO SINGLEHANDEDLY\n");
+       WIPE OUT A DEN OF TRAITOROUS CHRISTMAS ACTIVITY.  YOUR MISSION IS TO\n");
+       GO TO GOODS DISTRIBUTION HALL 7-BETA AND ASSESS ANY CHRISTMAS ACTIVITY\n");
+      YOU FIND THERE.  YOU ARE TO INFILTRATE THESE CHRISTMAS CELEBRANTS,\n");
+       LOCATE THEIR RINGLEADER, AN UNKNOWN MASTER RETAILER, AND BRING HIM\n");
+       BACK FOR EXECUTION AND TRIAL.  THANK YOU.  THE COMPUTER IS YOUR FRIEND.\n");
+     Step 4: Sign the briefing subject\'s briefing release form to indicate that\n");
+      the briefing subject has completed the briefing.\n");
+      ATTENTION: PLEASE SIGN YOUR BRIEFING RELEASE FORM.\n");
+Step 5: Terminate the briefing\n");
+    ATTENTION: THE BRIEFING IS TERMINATED.\n");
+    You walk to the door and hold your signed briefing release form up to
+    the plexiglass window.  A guard scrutinises it for a moment and then
+    slides back the megabolts holding the door shut.  You are now free to
+    continue the mission.
 	return choose(3,"You wish to ask The Computer for more information about Christmas",10,"You have decided to go directly to Goods Distribution Hall 7-beta");
 }
 
@@ -847,11 +819,15 @@ page45:
 }
 
 page46:
-	printf("\"Why do you ask about the communists, Troubleshooter?  It is not in the\n");
-	printf("interest of your continued survival to be asking about such topics,\" says\n");
-	printf("The Computer.\n");
-	return choose(53,"You insist on talking about the communists",54,"You change the subject");
-}
+  text: >
+    "Why do you ask about the communists, Troubleshooter?  It is not in
+    the interest of your continued survival to be asking about such
+    topics," says The Computer.
+  choose:
+    - text: You insist on talking about the communists.
+      goto: page53
+    - text: You change the subject.
+      goto: page54
 
 page47:
   text:
@@ -895,13 +871,11 @@ page50:
 }
 
 page51:
-gt
-	printf("You run for it, but you don\'t run far.  Three hundred strange and exotic\n");
-	printf("weapons turn you into a freeze dried cloud of soot.\n");
-	return new_clone(32);
-   resume: 32
-   goto: died
-}
+  text: >
+    You run for it, but you don't run far.  Three hundred strange and
+    exotic weapons turn you into a freeze dried cloud of soot.
+  resume: 32
+  goto: died
 
 page52:
   text:
@@ -913,9 +887,12 @@ page52:
 page53:
   text: You tell The Computer about:
   choose:
-    - text: The commies who have infiltrated the Troubleshooter Training Course and the impending People\'s Revolution",54,"Something less dangerous");
-    - text: return choose(47,"The commies who have infiltrated the Troubleshooter Training Course\n     and the impending People\'s Revolution",54,"Something less dangerous");
-  t}
+    - text: >
+        The commies who have infiltrated the Troubleshooter Training Course
+        and the impending People's Revolution.
+      goto: page47
+    - text: Something less dangerous.
+      goto: page54
 
 page54:
   text:
