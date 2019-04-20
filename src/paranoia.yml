@@ -11,8 +11,8 @@
 # This is a public domain adventure and may not be sold for profit
 
 variables:
-  - MOXIE: 13     # FIXME
-  - AGILITY: 15   # FIXME
+  - moxie: 13
+  - agility: 15   # FIXME
   - MAXKILL: 7    # The maximum number of UV's you can kill
   - clone: 1
   - page: 1
@@ -21,7 +21,7 @@ variables:
   - ultra_violet: 0
   - action_doll: 0
   - hit_points: 10
-  - read_letter: 0
+  - read_letter: 0      # have we read the letter about the commies?
   - plato_clone: 3
   - blast_door: 0
   - killer_count: 0
@@ -347,16 +347,16 @@ page15:
     - text: You ignore the robot and keep searching the hall.
       goto: page22
 
-page16()
-{
-	printf("The doll is a good buy for fifty credits; it will make a fine Christmas present\n");
-	printf("for one of your friends.  After the sale the robot rolls away.  You can use\n");
-	printf("the doll later in combat.  It works just like a cone rifle firing napalm,\n");
-	printf("except that occasionally it will explode and blow the user to smithereens.\n");
-	printf("But don\'t let that stop you.\n");
-	action_doll=1;
-	return 22;
-}
+page16:
+  text: >
+    The doll is a good buy for fifty credits; it will make a fine Christmas
+    present for one of your friends.  After the sale the robot rolls away.
+    You can use the doll later in combat.  It works just like a cone rifle
+    firing napalm, except that occasionally it will explode and blow the
+    user to smithereens. But don\'t let that stop you.
+  eval: |
+    action_doll = 1
+  goto: page22
 
 page17()
 {
@@ -410,8 +410,8 @@ page18:
       the Master Retailer.\n");
     - WHAM, suddenly you are struck from behind.
   eval:
-    if (dice_roll(2,10)<AGILITY)	return 19;
-    else return 20;
+    if (dice_roll(2,10)<AGILITY) return page19;  # succeed roll
+    else return 20;   # fail roll
 }
 
 page19:
@@ -574,36 +574,41 @@ page32()
 	return 22;
 }
 
-page33()
-{
-	blast_door=1;
-	printf("You release the megabolts on the blast door, then strain against it with your\n");
-	printf("awesome strength.  Slowly the door creaks open.  You bravely leap through the\n");
-	printf("opening and smack your head into the barrel of a 300 mm \'ultra shock\' class\n");
-	printf("plasma cannon.  It\'s dark in the barrel now, but just before your head got\n");
-	printf("stuck you can remember seeing a group of technicians anxiously watch you leap\n");
-	printf("into the room.\n");
-	if (ultra_violet==1)	return 35;
-	else			return 36;
+page33:
+  text: >
+    You release the megabolts on the blast door, then strain against it
+    with your awesome strength.  Slowly the door creaks open.  You bravely
+    leap through the opening and smack your head into the barrel of a 300
+    millimeter 'ultra shock' class plasma cannon.  It's dark in the barrel
+    now, but just before your head got stuck you can remember seeing a
+    group of technicians anxiously watch you leap into the room.
+  eval: |
+      blast_door=1;
+      if ultra_violet == 1:
+         return page35     # fail
+      else:
+         return page36     # succeed
 }
 
 page34:
   text:
-    - You have found a sealed envelope on the body.  You open it and read:
+    - >
+      You have found a sealed envelope on the body. You open it and read:
       "WARNING: Ultraviolet Clearance ONLY.  DO NOT READ. Memo from
       Chico-U-MRX4 to Harpo-U-MRX5. The planned takeover of the
       Troubleshooter Training Course goes well, Comrade. Once we have
       trained the unwitting bourgeois troubleshooters to work as communist
       dupes, the overthrow of Alpha Complex will be unstoppable.  My survey
       of the complex has convinced me that no one suspects a thing; soon it
-      will be too late for them to oppose the revolution.
-    - The only thing that could possibly impede the people's revolution
-      would be someone alerting The Computer to our plans (for instance,
-      some enterprising Troubleshooter could tell The Computer\n");
-	printf("that the communists have liberated the Troubleshooter Training Course and plan\n");
-	printf("to use it as a jumping off point from which to undermine the stability of all\n");
-	printf("Alpha Complex), but as we both know, the capitalistic Troubleshooters would\n");
-	printf("never serve the interests of the proletariat above their own bourgeois desires.\n");
+      will be too late for them to oppose the revolution.  The only thing
+      that could possibly impede the people's revolution would be someone
+      alerting The Computer to our plans (for instance, some enterprising
+      Troubleshooter could tell The Computer that the communists have
+      liberated the Troubleshooter Training Course and plan to use it as a
+      jumping off point from which to undermine the stability of all Alpha
+      Complex), but as we both know, the capitalistic Troubleshooters would
+      never serve the interests of the proletariat above their own
+      bourgeois desires.\n");
 	printf("P.S. I\'m doing some Christmas shopping later today.  Would you like me to pick\n");
 	printf("you up something?\"\n");
 	more();
@@ -620,7 +625,8 @@ page34:
     - text: You wander off to look for more evidence.
       goto: page22
 
-page35()
+page35:
+  text: >
 {
 	printf("\"Oh master,\" you hear through the gun barrel, \"where have you been? It is\n");
 	printf("time for the great Christmas gifting ceremony.  You had better hurry and get\n");
@@ -639,32 +645,32 @@ page35()
 	return new_clone(32);
 }
 
-page36()
-{
-	printf("\"Congratulations, troubleshooter, you have successfully found the lair of the\n");
-	printf("Master Retailer and completed the Troubleshooter Training Course test mission,\"\n");
-	printf("a muffled voice tells you through the barrel.  \"Once we dislodge your head\n");
-	printf("from the barrel of the \'Ultra Shock\' plasma cannon you can begin with the\n");
-	printf("training seminars, the first of which will concern the 100%% accurate\n");
-	printf("identification and elimination of unregistered mutants.  If you have any\n");
-	printf("objections please voice them now.\"\n");
-	printf("\nSelect \'a\', \'b\' or \'c\' :\n");
-	printf(" a - You appreciate his courtesy and voice an objection.\n");
-	printf(" b - After your head is removed from the cannon, you register as a mutant.\n");
-	printf(" c - After your head is removed from the cannon, you go to the unregistered\n");
-	printf("     mutant identification and elimination seminar.\n");
-	switch(get_char())
-	{
-		case 'a' : return new_clone(32);
-		case 'b' : return 23;
-		case 'c' :
-		default  : return 37;
-	}
-}
+page36:
+  text: >
+    "Congratulations, troubleshooter, you have successfully found the lair
+    of the Master Retailer and completed the Troubleshooter Training
+    Course test mission," a muffled voice tells you through the barrel.
+    "Once we dislodge your head from the barrel of the 'Ultra Shock' plasma
+    cannon you can begin with the training seminars, the first of which
+    will concern the 100% accurate identification and elimination of
+    unregistered mutants.  If you have any objections please voice them now.
+  eval: |
+      printf("\nSelect \'a\', \'b\' or \'c\' :\n");
+      printf(" a - You appreciate his courtesy and voice an objection.\n");
+      printf(" b - After your head is removed from the cannon, you register as a mutant.\n");
+      printf(" c - After your head is removed from the cannon, you go to the unregistered\n");
+      printf("     mutant identification and elimination seminar.\n");
+      switch(get_char())
+      {
+      	case 'a' : return new_clone(32);
+      	case 'b' : return 23;
+      	case 'c' :
+      	default  : return 37;
+      }
 
-page37()
-{
-	printf("\"Come with me please, Troubleshooter,\" says the Green clearance technician\n");
+page37:
+  text: >
+"\"Come with me please, Troubleshooter,\" says the Green clearance technician\n");
 	printf("after he has dislodged your head from the cannon.  \"You have been participating\n");
 	printf("in the Troubleshooter Training Course since you got off the tube car in\n");
 	printf("GDH7-beta,\" he explains as he leads you down a corridor.  \"The entire\n");
@@ -785,23 +791,24 @@ page43()
 	return choose(44,"You go looking for a computer terminal",55,"You go to the graduation ceremony immediately");
 }
 
-page44()
-{
-	printf("You walk down to a semi-secluded part of the training course complex and\n");
-	printf("activate a computer terminal.  \"AT YOUR SERVICE\" reads the computer screen.\n");
-	if (read_letter==0)	return choose(23,"You register yourself as a mutant",55,"You change your mind and go to the graduation ceremony");
-	printf("\nSelect \'a\', \'b\' or \'c\' :\n");
-	printf(" a - You register yourself as a mutant.\n");
-	printf(" b - You want to chat about the commies.\n");
-	printf(" c - You change your mind and go to the graduation ceremony.\n");
-	switch(get_char())
-	{
-		case 'a' : return 23;
-		case 'b' : return 46;
-		case 'c' :
-		default  : return 55;
-	}
-}
+page44:
+  text: >
+    You walk down to a semi-secluded part of the training course complex
+    and activate a computer terminal.  "AT YOUR SERVICE" reads the computer
+    screen.
+  eval: |
+    if read_letter == 0:
+        choose(
+          ("You register yourself as a mutant",23),
+          ("You change your mind and go to the graduation ceremony", 55)
+        )
+    else:
+        choose(
+          ("You register yourself as a mutant",23),
+          ("You want to chat about the commies", 46)
+          ("You change your mind and go to the graduation ceremony", 55)
+        )
+
 
 page45:
   text: >
