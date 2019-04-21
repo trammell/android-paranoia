@@ -402,48 +402,53 @@ page17()
 }
 
 page18:
-  text:
-    - You walk to the centre of the hall, ogling like an infrared fresh
-      from the clone vats.  Towering before you is the most unearthly thing
-      you have ever seen, a green multi armed mutant horror hulking 15 feet
-      above your head.
-    - Its skeletal body is draped with hundreds of metallic strips
-      (probably to negate the effects of some insidious mutant power), and
-      the entire hideous creature is wrapped in a thousand blinking hazard
-      lights.  It's times like this when you wish you'd had some training
-      for this job.  Luckily the creature doesn't take notice of you but
-      stands unmoving, as though waiting for a summons from its dark lord,
-      the Master Retailer.\n");
-    - WHAM, suddenly you are struck from behind.
+  text: >
+    You walk to the centre of the hall, ogling like an infrared fresh from
+    the clone vats.  Towering before you is the most unearthly thing you
+    have ever seen, a green multi armed mutant horror hulking 15 feet above
+    your head.
+    Its skeletal body is draped with hundreds of metallic strips (probably
+    to negate the effects of some insidious mutant power), and the entire
+    hideous creature is wrapped in a thousand blinking hazard lights.  It's
+    times like this when you wish you'd had some training for this job.
+    Luckily the creature doesn't take notice of you but stands unmoving, as
+    though waiting for a summons from its dark lord, the Master
+    Retailer.
+    WHAM, suddenly you are struck from behind.
   eval:
     if (dice_roll(2,10)<AGILITY) return page19;  # succeed roll
     else return 20;   # fail roll
-}
 
 page19:
-  text: Quickly you regain your balance, whirl and fire your laser into the
-        Ultraviolet citizen behind you.  For a moment your heart leaps to
-        your throat, then you realize that he is indeed dead and you will
-        be the only one filing a report on this incident.  Besides, he was
-        participating in this traitorous Christmas shopping, as is evident
-        from the rain of shoddy toys falling all around you. Another
-        valorous deed done in the service of The Computer!
+  text: >
+    Quickly you regain your balance, whirl and fire your laser into the
+    Ultraviolet citizen behind you.  For a moment your heart leaps to your
+    throat, then you realize that he is indeed dead and you will be the
+    only one filing a report on this incident.  Besides, he was
+    participating in this traitorous Christmas shopping, as is evident from
+    the rain of shoddy toys falling all around you. Another valorous deed
+    done in the service of The Computer!
+  eval: |
+    if (++killer_count>(MAXKILL-clone))
+        return 21;
+    if (read_letter==1)
+        return 22;
+    return choose(34,"You search the body, keeping an eye open for
+        Internal Security",22,"You run away like the cowardly dog you are")
 
-	if (++killer_count>(MAXKILL-clone))	return 21;
-	if (read_letter==1)	return 22;
-	return choose(34,"You search the body, keeping an eye open for Internal Security",22,"You run away like the cowardly dog you are");
-}
+page20:
+  text: >
+    Oh no! you can't keep your balance. You're falling, falling head first
+    into the Christmas beast's gaping maw.  It's a valiant struggle; you
+    think you are gone when its poisonous needles dig into your flesh, but
+    with a heroic effort you jerk a string of lights free and jam the live
+    wires into the creature's spine.
 
-page20()
-{
-	printf("Oh no! you can\'t keep your balance.  You\'re falling, falling head first into\n");
-	printf("the Christmas beast\'s gaping maw.  It\'s a valiant struggle; you think you are\n"); printf("gone when its poisonous needles dig into your flesh, but with a heroic effort\n");
-	printf("you jerk a string of lights free and jam the live wires into the creature\'s\n");
-	printf("spine.  The Christmas beast topples to the ground and begins to burn, filling\n");
-	printf("the area with a thick acrid smoke.  It takes only a moment to compose yourself,\n");
-	printf("and then you are ready to continue your search for the Master Retailer.\n");
-	return 22;
-}
+    The Christmas beast topples to the ground and begins to burn,
+    filling the area with a thick acrid smoke. It takes only a moment to
+    compose yourself, and then you are ready to continue your search for
+    the Master Retailer.
+  goto: page22
 
 page21:
   text: >
@@ -579,15 +584,15 @@ page31:
     - text: You pssfft go away stupid.
       goto: page22
 
-page32()
-{
-	printf("Finally it\'s your big chance to prove that you\'re as good a troubleshooter\n");
-	printf("as your previous clone.  You walk briskly to mission briefing and pick up your\n");
-	printf("previous clone\'s personal effects and notepad.  After reviewing the notes you\n");
-	printf("know what has to be done.  You catch the purple line to Goods Distribution Hall\n");
-	printf("7-beta and begin to search for the blast door.\n");
-	return 22;
-}
+page32:
+  text: >
+    Finally it's your big chance to prove that you're as good a
+    troubleshooter as your previous clone.  You walk briskly to mission
+    briefing and pick up your previous clone's personal effects and
+    notepad.  After reviewing the notes you know what has to be done. You
+    catch the purple line to Goods Distribution Hall 7-beta and begin to
+    search for the blast door.
+  goto: page22
 
 page33:
   text: >
