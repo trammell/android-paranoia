@@ -606,32 +606,34 @@ page33:
 }
 
 page34:
-  text:
-    - >
-      You have found a sealed envelope on the body. You open it and read:
-      "WARNING: Ultraviolet Clearance ONLY.  DO NOT READ. Memo from
-      Chico-U-MRX4 to Harpo-U-MRX5. The planned takeover of the
-      Troubleshooter Training Course goes well, Comrade. Once we have
-      trained the unwitting bourgeois troubleshooters to work as communist
-      dupes, the overthrow of Alpha Complex will be unstoppable.  My survey
-      of the complex has convinced me that no one suspects a thing; soon it
-      will be too late for them to oppose the revolution.  The only thing
-      that could possibly impede the people's revolution would be someone
-      alerting The Computer to our plans (for instance, some enterprising
-      Troubleshooter could tell The Computer that the communists have
-      liberated the Troubleshooter Training Course and plan to use it as a
-      jumping off point from which to undermine the stability of all Alpha
-      Complex), but as we both know, the capitalistic Troubleshooters would
-      never serve the interests of the proletariat above their own
-      bourgeois desires.\n");
-	printf("P.S. I\'m doing some Christmas shopping later today.  Would you like me to pick\n");
-	printf("you up something?\"\n");
-	more();
-    - When you put down the memo you are overcome by that strange deja vu
-      again. You see yourself talking privately with The Computer.  You are
-      telling it all about the communists' plan, and then the scene shifts
-      and you see yourself showered with awards for foiling the insidious
-      communist plot to take over the complex.
+  text: >
+    You have found a sealed envelope on the body. You open it and read:
+    "WARNING: Ultraviolet Clearance ONLY. DO NOT READ. Memo from
+    Chico-U-MRX4 to Harpo-U-MRX5. The planned takeover of the
+    Troubleshooter Training Course goes well, Comrade. Once we have trained
+    the unwitting bourgeois troubleshooters to work as communist dupes, the
+    overthrow of Alpha Complex will be unstoppable.
+
+    My survey of the complex has convinced me that no one suspects a thing;
+    soon it will be too late for them to oppose the revolution.
+
+    The only thing that could possibly impede the people's revolution would
+    be someone alerting The Computer to our plans (for instance, some
+    enterprising Troubleshooter could tell The Computer that the communists
+    have liberated the Troubleshooter Training Course and plan to use it as
+    a jumping off point from which to undermine the stability of all Alpha
+    Complex), but as we both know, the capitalistic Troubleshooters would
+    never serve the interests of the proletariat above their own bourgeois
+    desires.
+
+    P.S. I'm doing some Christmas shopping later today. Would you like me
+    to pick you up something?"
+
+    When you put down the memo you are overcome by that strange deja vu
+    again. You see yourself talking privately with The Computer.  You are
+    telling it all about the communists' plan, and then the scene shifts
+    and you see yourself showered with awards for foiling the insidious
+    communist plot to take over the complex.
   eval:
     read_letter = 1
   choose:
@@ -642,23 +644,23 @@ page34:
 
 page35:
   text: >
-{
-	printf("\"Oh master,\" you hear through the gun barrel, \"where have you been? It is\n");
-	printf("time for the great Christmas gifting ceremony.  You had better hurry and get\n");
-	printf("the costume on or the trainee may begin to suspect.\"  For the second time\n");
-	printf("today you are forced to wear attire not of your own choosing.  They zip the\n");
-	printf("suit to your chin just as you hear gunfire erupt behind you.\n");
-	printf("\"Oh no! Who left the door open?  The commies will get in.  Quick, fire the\n");
-	printf("laser cannon or we\'re all doomed.\"\n");
-	printf("\"Too late you capitalist swine, the people\'s revolutionary strike force claims\n");
-	printf("this cannon for the proletariat\'s valiant struggle against oppression.  Take\n");
-	printf("that, you running dog imperialist lackey.  ZAP, KAPOW\"\n");
-	printf("Just when you think that things couldn\'t get worse, \"Aha, look what we have\n");
-	printf("here, the Master Retailer himself with his head caught in his own cannon.  His\n");
-	printf("death will serve as a symbol of freedom for all Alpha Complex.\n");
-	printf("Fire the cannon.\"\n");
-	return new_clone(32);
-}
+        "Oh master," you hear through the gun barrel, "where have you been?
+    It is time for the great Christmas gifting ceremony. You had better
+    hurry and get the costume on or the trainee may begin to suspect." For
+    the second time today you are forced to wear attire not of your own
+    choosing. They zip the suit to your chin just as you hear gunfire erupt
+    behind you.
+        "Oh no! Who left the door open? The commies will get in. Quick, fire
+    the laser cannon or we're all doomed."
+        "Too late you capitalist swine, the people's revolutionary strike
+    force claims this cannon for the proletariat's valiant struggle against
+    oppression. Take that, you running dog imperialist lackey. ZAP, KAPOW"
+        Just when you think that things couldn't get worse, "Aha, look what
+    we have here, the Master Retailer himself with his head caught in his
+    own cannon.  His death will serve as a symbol of freedom for all Alpha
+    Complex. Fire the cannon."
+  eval: |
+    new_clone(32)
 
 page36:
   text: >
@@ -673,7 +675,8 @@ page36:
   eval: |
       choose(
         ("You appreciate his courtesy and voice an objection.", new_clone(32))
-        ("After your head is removed from the cannon, you register as a mutant.", page23)
+        ("After your head is removed from the cannon,
+            you register as a mutant.", page23)
         ("After your head is removed from the cannon, you go to the
           unregistered mutant identification and elimination seminar.", page37)
       )
