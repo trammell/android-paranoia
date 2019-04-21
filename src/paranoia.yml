@@ -501,70 +501,72 @@ page25()
 	return choose(28,"You tell them it was all just a bad joke",26,"You are going to shoot");
 }
 
-page26()
-{
-	printf("You can read the cold, sober hatred in their eyes (They really didn\'t think\n");
-	printf("it was funny), as they tighten the circle around you.  One of them shoves a\n");
-	printf("blaster up your nose, but that doesn\'t hurt as much as the multi-gigawatt\n");
-	printf("carbonium tipped food drill in the small of your back.\n");
-	printf("You spend the remaining micro-seconds of your life wondering what you did wrong\n");
-	return new_clone(32);
-}
+page26:
+  text: >
+    You can read the cold, sober hatred in their eyes (They really didn't
+    think it was funny), as they tighten the circle around you.  One of
+    them shoves a blaster up your nose, but that doesn't hurt as much as
+    the multi-gigawatt carbonium tipped food drill in the small of your
+    back.
+    You spend the remaining micro-seconds of your life wondering what you
+    did wrong.
+  goto: new_clone(32);
 
-page27()
-{
-	/* doesn't exist.  Can't happen with computer version.
-	   designed to catch dice cheats */
-}
+page27:
+  eval: |
+    # This page doesn't exist.
+    # Can't happen with computer version.
+    # Designed to catch dice cheats.
+    return 1/0
 
 page28:
   text: They don't think it's funny.
   goto: page26
 
-page29()
-{
-	printf("\"Psst, hey citizen, come here.  Pssfft,\" you hear.  When you peer around\n");
-	printf("you can see someone\'s dim outline in the shadows.  \"I got some information\n");
-	printf("on the Master Retailer.  It\'ll only cost you 30 psst credits.\"\n");
-	printf("\nSelect \'a\', \'b\' or \'c\' :\n");
-	printf(" a - You pay the 30 credits for the info.\n");
-	printf(" b - You would rather threaten him for the information.\n");
-	printf(" c - You ignore him and walk away.\n");
-	switch(get_char())
-	{
-		case 'a' : return 30;
-		case 'b' : return 31;
-		case 'c' :
-		default  : return 22;
-	}
-}
+page29:
+  text: >
+    "Psst, hey citizen, come here.  Pssfft," you hear.  When you peer
+    around you can see someone's dim outline in the shadows.
+    "I got some information on the Master Retailer.  It'll only cost you 30
+    psst credits."
+  eval: |
+    printf("\nSelect \'a\', \'b\' or \'c\' :\n");
+    printf("a You pay the 30 credits for the info.")
+    printf("b You would rather threaten him for the information.")
+    printf("c You ignore him and walk away.")
+    switch(get_char()) {
+      case 'a' : return 30;
+      case 'b' : return 31;
+      case 'c' :
+      default  : return 22;
+    }
 
-page30()
-{
-	printf("You step into the shadows and offer the man a thirty credit bill.  \"Just drop\n");
-	printf("it on the floor,\" he says.  \"So you\'re looking for the Master Retailer, pssfft?\n");
-	printf("I\'ve seen him, he\'s a fat man in a fuzzy red and white jump suit.  They say\n");
-	printf("he\'s a high programmer with no respect for proper security.  If you want to\n");
-	printf("find him then pssfft step behind me and go through the door.\"\n");
-	printf("Behind the man is a reinforced plasteel blast door.  The centre of it has been\n");
-	printf("buckled toward you in a manner you only saw once before when you were field\n");
-	printf("testing the rocket assist plasma slingshot (you found it easily portable but\n");
-	printf("prone to misfire).  Luckily it isn\'t buckled too far for you to make out the\n");
-	printf("warning sign.  WARNING!! Don\'t open this door or the same thing will happen to\n");
-	printf("you.  Opening this door is a capital offense.  Do not do it.  Not at all. This\n");
-	printf("is not a joke.\n");
-	printf("\nSelect \'a\', \'b\' or \'c\' :\n");
-	printf(" a - You use your Precognition mutant power on opening the door.\n");
-	printf(" b - You just go through the door anyway.\n");
-	printf(" c - You decide it\'s too dangerous and walk away.\n");
-	switch(get_char())
-	{
-		case 'a' : return 56;
-		case 'b' : return 33;
-		case 'c' :
-		default  : return 22;
-	}
-}
+page30:
+  text: >
+    You step into the shadows and offer the man a thirty credit bill.
+    "Just drop it on the floor," he says.  "So you're looking for the
+    Master Retailer, pssfft? I've seen him, he's a fat man in a fuzzy red
+    and white jump suit.  They say he's a high programmer with no respect
+    for proper security.  If you want to find him then pssfft step behind
+    me and go through the door."
+    Behind the man is a reinforced plasteel blast door.  The centre of it
+    has been buckled toward you in a manner you only saw once before when
+    you were field testing the rocket assist plasma slingshot (you found it
+    easily portable but prone to misfire). Luckily it isn't buckled too far
+    for you to make out the warning sign.
+    WARNING!! Don't open this door or the same thing will happen to you.
+    Opening this door is a capital offense.  Do not do it.  Not at all.
+    This is not a joke.
+  choose: |
+    printf("a You use your Precognition mutant power on opening the door.")
+    printf("b You just go through the door anyway.")
+    printf("c You decide it\'s too dangerous and walk away.")
+    switch(get_char()) {
+      case 'a' : return 56;
+      case 'b' : return 33;
+      case 'c' :
+      default  : return 22;
+    }
 
 page31:
   text: >
