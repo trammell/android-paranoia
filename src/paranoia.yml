@@ -101,7 +101,7 @@ page1:
   next: page57
 
 page2:
-  text:
+  text: >
     "Greetings," says the kindly Internal Security self incrimination
     expert who meets you at the door, "How are we doing today?"
     He offers you a doughnut and coffee and asks what brings you here.
@@ -115,9 +115,13 @@ page2:
     somewhat paranoid distrust of The Computer.  This should explain why
     you are hogtied and moving slowly down the conveyer belt towards the
     meat processing unit in Food Services.
-  eval:
-    if (computer_request==1) return new_clone(45);
-    else return new_clone(32);
+  eval: |
+    if (computer_request==1)
+       next = page45
+       new_clone()
+    else:
+       next = page32
+       new_clone()
 
 page3:
   text:
@@ -236,12 +240,14 @@ page10:
     maze of magnalift tube tracks and linear accelerators.  You bravely
     study the specially enhanced 3-D tube route map; you wouldn't be the
     first Troubleshooter to take a fast tube ride to nowhere.
-  eval: >
-    if (ultra_violet==0):
-      choice=choose(3,"You decide to ask The Computer about Christmas using a nearby terminal",10,"You think you have the route worked out, so you'll board a tube train");
-		if (choice==3) return choice;
-	};
-	printf("You nervously select a tubecar and step aboard.\n");
+  eval: |
+      if not ultra_violet:
+          choose(
+            ("You decide to ask The Computer about Christmas using a nearby terminal", page3)
+            ("You think you have the route worked out, so you'll board a tube train", page10);
+          )
+          if (choice==3) return choice;
+"You nervously select a tubecar and step aboard.\n");
 	if (dice_roll(2,10)<MOXIE)
 	{
 		printf("You just caught a purple line tubecar.\n");
@@ -670,19 +676,19 @@ page36:
 
 page37:
   text: >
-"\"Come with me please, Troubleshooter,\" says the Green clearance technician\n");
-	printf("after he has dislodged your head from the cannon.  \"You have been participating\n");
-	printf("in the Troubleshooter Training Course since you got off the tube car in\n");
-	printf("GDH7-beta,\" he explains as he leads you down a corridor.  \"The entire\n");
-	printf("Christmas assignment was a test mission to assess your current level of\n");
-	printf("training.  You didn\'t do so well.  We\'re going to start at the beginning with\n");
-	printf("the other student.  Ah, here we are, the mutant identification and elimination\n");
-	printf("lecture.\"  He shows you into a vast lecture hall filled with empty seats.\n");
-	printf("There is only one other student here, a Troubleshooter near the front row\n");
-	printf("playing with his Action Troubleshooter(tm) figure.  \"Find a seat and I will\n");
-	printf("begin,\" says the instructor.\n");
-	return 38;
-}
+    "Come with me please, Troubleshooter," says the Green clearance
+    technician after he has dislodged your head from the cannon. "You
+    have been participating in the Troubleshooter Training Course since you
+    got off the tube car in GDH7-beta," he explains as he leads you down a
+    corridor. "The entire Christmas assignment was a test mission to assess
+    your current level of training.  You didn't do so well.  We're going to
+    start at the beginning with the other student. Ah, here we are, the
+    mutant identification and elimination lecture." He shows you into a
+    vast lecture hall filled with empty seats.  There is only one other
+    student here, a Troubleshooter near the front row playing with his
+    Action Troubleshooter(tm) figure.  "Find a seat and I will begin," says
+    the instructor.
+  goto: page38
 
 page38()
 {
@@ -751,12 +757,12 @@ page40()
 	}
 }
 
-page41()
-{
-	printf("You stumble down the hallway of the Troubleshooter Training Course looking for\n");
-	printf("your next class.  Up ahead you see one of the instructors waving to you.  When\n");
-	printf("you get there he shakes your hand and says, \"I am Jung-I-PSY.  Welcome to the\n");
-	printf("secret society infiltration seminar.  I hope you ...\"  You don\'t catch the\n");
+page41:
+  text: >
+    You stumble down the hallway of the Troubleshooter Training Course
+    looking for your next class. Up ahead you see one of the instructors
+    waving to you. When you get there he shakes your hand and says, "I am
+    Jung-I-PSY.  Welcome to the secret society infiltration seminar. I hope you ...\"  You don\'t catch the\n");
 	printf("rest of his greeting because you\'re paying too much attention to his handshake;\n");
 	printf("it is the strangest thing that has ever been done to your hand, sort of how it\n");
 	printf("would feel if you put a neuro whip in a high energy palm massage unit.\n");
@@ -853,7 +859,7 @@ page48:
       One of the last things you see is a small blue sphere slowly
       dwindling behind you.
     - After you fail to report in, you will be assumed dead.
-  resume: 45
+  resume: page45
   goto: new_clone
 
 
