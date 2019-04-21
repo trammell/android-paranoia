@@ -446,33 +446,39 @@ page20()
 }
 
 page21:
-  text:
-	printf("You have been wasting the leading citizens of Alpha Complex at a prodigious\n");
-	printf("rate.  This has not gone unnoticed by the Internal Security squad at GDH7-beta.\n");
-	printf("Suddenly, a net of laser beams spear out of the gloomy corners of the hall,\n");
-	printf("chopping you into teeny, weeny bite size pieces.\n");
-	return new_clone(45);
-}
+  text: >
+    You have been wasting the leading citizens of Alpha Complex at a
+    prodigious rate. This has not gone unnoticed by the Internal Security
+    squad at GDH7-beta. Suddenly, a net of laser beams spear out of the
+    gloomy corners of the hall, chopping you into teeny, weeny bite size
+    pieces.
+  eval: |
+    return new_clone(page45)
 
 page22:
   text: You are searching Goods Distribution Hall 7-beta.
-  eval:
-    switch(dice_roll(1,4))
-    {
-    	case 1:	return 18;
-    	case 2: return 15;
-    	case 3: return 18;
-    	case 4: return 29;
-    }
+  eval: |
+    x = dice_roll(1,4)
+    if x in [1,2]:
+      return page18
+    if x == 3:
+      return page15
+    if x == 4:
+      return page29
 
-page23()
-{
-	printf("You go to the nearest computer terminal and declare yourself a mutant.\n");
-	printf("\"A mutant, he\'s a mutant,\" yells a previously unnoticed infrared who had\n");
-	printf("been looking over your shoulder.  You easily gun him down, but not before a\n");
-	printf("dozen more citizens take notice and aim their weapons at you.\n");
-	return choose(28,"You tell them that it was really only a bad joke",24,"You want to fight it out, one against twelve");
-}
+page23:
+  text: >
+    You go to the nearest computer terminal and declare yourself a
+    mutant.
+    "A mutant, he's a mutant," yells a previously unnoticed infrared who
+    had been looking over your shoulder. You easily gun him down, but not
+    before a dozen more citizens take notice and aim their weapons at
+    you.
+  choose:
+    - text: You tell them that it was really only a bad joke.
+      goto: page28
+    - text: You want to fight it out, one against twelve.
+      goto: page24
 
 page24()
 {
@@ -506,11 +512,9 @@ page27()
 	   designed to catch dice cheats */
 }
 
-page28()
-{
-	printf("They don\'t think it\'s funny.\n");
-	return 26;
-}
+page28:
+  text: They don't think it's funny.
+  goto: page26
 
 page29()
 {
@@ -557,18 +561,23 @@ page30()
 	}
 }
 
-page31()
-{
-	printf("Like any good troubleshooter you make the least expensive decision and threaten\n");
-	printf("him for information.  With lightning like reflexes you whip out your laser and\n");
-	printf("stick it up his nose.  \"Talk, you traitorous Christmas celebrator, or who nose\n");
-	printf("what will happen to you, yuk yuk,\" you pun menacingly, and then you notice\n");
-	printf("something is very wrong.  He doesn\'t have a nose.  As a matter of fact he\'s\n");
-	printf("made of one eighth inch cardboard and your laser is sticking through the other\n");
-	printf("side of his head.  \"Are you going to pay?\" says his mouth speaker,\n");
-	printf("\"or are you going to pssfft go away stupid?\"\n");
-	return choose(30,"You pay the 30 credits",22,"You pssfft go away stupid");
-}
+page31:
+  text: >
+    Like any good troubleshooter you make the least expensive decision and
+    threaten him for information. With lightning like reflexes you whip out
+    your laser and stick it up his nose.
+    "Talk, you traitorous Christmas celebrator, or who nose what will
+    happen to you, yuk yuk," you pun menacingly, and then you notice
+    something is very wrong.  He doesn't have a nose.  As a matter of fact
+    he's made of one eighth inch cardboard and your laser is sticking
+    through the other side of his head.
+    "Are you going to pay?" says his mouth speaker, "or are you going to
+    pssfft go away stupid?"
+  choose:
+    - text: You pay the 30 credits.
+      goto: page30
+    - text: You pssfft go away stupid.
+      goto: page22
 
 page32()
 {
@@ -654,25 +663,20 @@ page35:
 page36:
   text: >
     "Congratulations, troubleshooter, you have successfully found the lair
-    of the Master Retailer and completed the Troubleshooter Training
-    Course test mission," a muffled voice tells you through the barrel.
+    of the Master Retailer and completed the Troubleshooter Training Course
+    test mission," a muffled voice tells you through the barrel.
     "Once we dislodge your head from the barrel of the 'Ultra Shock' plasma
     cannon you can begin with the training seminars, the first of which
     will concern the 100% accurate identification and elimination of
-    unregistered mutants.  If you have any objections please voice them now.
+    unregistered mutants.  If you have any objections please voice them
+    now.
   eval: |
-      printf("\nSelect \'a\', \'b\' or \'c\' :\n");
-      printf(" a - You appreciate his courtesy and voice an objection.\n");
-      printf(" b - After your head is removed from the cannon, you register as a mutant.\n");
-      printf(" c - After your head is removed from the cannon, you go to the unregistered\n");
-      printf("     mutant identification and elimination seminar.\n");
-      switch(get_char())
-      {
-      	case 'a' : return new_clone(32);
-      	case 'b' : return 23;
-      	case 'c' :
-      	default  : return 37;
-      }
+      choose(
+        ("You appreciate his courtesy and voice an objection.", new_clone(32))
+        ("After your head is removed from the cannon, you register as a mutant.", page23)
+        ("After your head is removed from the cannon, you go to the
+          unregistered mutant identification and elimination seminar.", page37)
+      )
 
 page37:
   text: >
@@ -690,22 +694,27 @@ page37:
     the instructor.
   goto: page38
 
-page38()
-{
-	printf("\"I am Plato-B-PHI%d, head of mutant propaganda here at the training course.\n",plato_clone);
-	printf("If you have any questions about mutants please come to me.  Today I will be\n");
-	printf("talking about mutant detection.  Detecting mutants is very easy.  One simply\n");
-	printf("watches for certain tell tale signs, such as the green scaly skin, the third\n");
-	printf("arm growing from the forehead, or other similar disfigurements so common with\n");
-	printf("their kind.  There are, however, a few rare specimens that show no outward sign\n");
-	printf("of their treason.  This has been a significant problem, so our researchers have\n");
-	printf("been working on a solution.  I would like a volunteer to test this device,\"\n");
-	printf("he says, holding up a ray gun looking thing.  \"It is a mutant detection ray.\n");
-	printf("This little button detects for mutants, and this big button stuns them once\n");
-	printf("they are discovered.  Who would like to volunteer for a test?\"\n");
-	printf("The Troubleshooter down the front squirms deeper into his chair.\n");
-	return choose(39,"You volunteer for the test",40,"You duck behind a chair and hope the instructor doesn\'t notice you");
-}
+page38:
+  text: >
+    "I am Plato-B-PHI{{ plato_clone }}, head of mutant propaganda here at
+    the training course. If you have any questions about mutants please
+    come to me.  Today I will be talking about mutant detection.  Detecting
+    mutants is very easy.  One simply watches for certain tell tale signs,
+    such as the green scaly skin, the third arm growing from the forehead,
+    or other similar disfigurements so common with their kind."
+    "There are, however, a few rare specimens that show no outward sign of
+    their treason. This has been a significant problem, so our researchers
+    have been working on a solution. I would like a volunteer to test this
+    device," he says, holding up a ray gun looking thing. "It is a mutant
+    detection ray. This little button detects for mutants, and this big
+    button stuns them once they are discovered. Who would like to volunteer
+    for a test?"
+    The Troubleshooter down the front squirms deeper into his chair.
+  choose:
+    - text: You volunteer for the test.
+      goto: page39
+    - text: You duck behind a chair and hope the instructor doesn't notice you.
+      goto: page40
 
 page39:
   text: >
