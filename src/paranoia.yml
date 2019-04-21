@@ -1,30 +1,44 @@
----
+--- !!text-adventure
 
-# "Paranoia" is a solo game taken from the Jan/Feb issue (No 77) of
-# "SpaceGamer/FantasyGamer" magazine.
-#
-# Article by Sam Shirley.
-#
-# Implemented in C on Vax 11/780 under UNIX by Tim Lister
-# Converted to YAML by John Trammell.
-#
-# This is a public domain adventure and may not be sold for profit
+--- !!session
 
-variables:
-  - moxie: 13
-  - agility: 15   # FIXME
-  - maxkill: 7    # The maximum number of UV's you can kill
-  - clone: 1
-  - page: 1
-  - resume: 1
-  - computer_request: 0
-  - ultra_violet: 0
-  - action_doll: 0
-  - hit_points: 10
-  - read_letter: 0      # have we read the letter about the commies?
-  - plato_clone: 3
-  - blast_door: 0
-  - killer_count: 0
+- moxie: 13             # "can-do" metric
+- agility: 15           # agility metric
+- maxkill: 7            # max num of UV's you can kill
+- clone: 1              # index of clone
+- page: 1
+- resume: 1
+- computer_request: 0
+- ultra_violet: 0
+- action_doll: 0
+- hit_points: 10
+- read_letter: 0      # have we read the letter about the commies?
+- plato_clone: 3
+- blast_door: 0
+- killer_count: 0
+
+--- !!instructions
+
+text: >
+  Welcome to Paranoia!
+  HOW TO PLAY:
+  Just press <RETURN> until you are asked to make a choice.
+  Select 'a' or 'b' or whatever for your choice, then press <RETURN>.
+  You may select 'p' at any time to get a display of your statistics.;
+  Always choose the least dangerous option.  Continue doing this until
+  you win.  At times you will use a skill or engage in combat and and
+  will be informed of the outcome.  These sections will be self
+  explanatory.
+  HOW TO DIE:
+  As Philo-R-DMD you will die at times during the adventure.  When this
+  happens you will be given an new clone at a particular location.  The
+  new Philo-R will usually have to retrace some of the old Philo-R's
+  path; hopefully he won't make the same mistake as his predecessor.
+  HOW TO WIN:
+  Simply complete the mission before you expend all six clones.  If you
+  make it, congratulations.  If not, you can try again later.
+
+--- !!scene
 
 died:
   text: Clone {{ clone }}  just died.
@@ -43,26 +57,6 @@ died:
           hit_points=10;
           killer_count=0;
           return resume;
-
-instructions:
-  text: >
-    Welcome to Paranoia!
-    HOW TO PLAY:
-    Just press <RETURN> until you are asked to make a choice.
-    Select 'a' or 'b' or whatever for your choice, then press <RETURN>.
-    You may select 'p' at any time to get a display of your statistics.;
-    Always choose the least dangerous option.  Continue doing this until
-    you win.  At times you will use a skill or engage in combat and and
-    will be informed of the outcome.  These sections will be self
-    explanatory.
-    HOW TO DIE:
-    As Philo-R-DMD you will die at times during the adventure.  When this
-    happens you will be given an new clone at a particular location.  The
-    new Philo-R will usually have to retrace some of the old Philo-R's
-    path; hopefully he won't make the same mistake as his predecessor.
-    HOW TO WIN:
-    Simply complete the mission before you expend all six clones.  If you
-    make it, congratulations.  If not, you can try again later.
 
 
 character:
