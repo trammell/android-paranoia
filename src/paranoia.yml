@@ -13,7 +13,7 @@
 variables:
   - moxie: 13
   - agility: 15   # FIXME
-  - MAXKILL: 7    # The maximum number of UV's you can kill
+  - maxkill: 7    # The maximum number of UV's you can kill
   - clone: 1
   - page: 1
   - resume: 1
@@ -28,7 +28,7 @@ variables:
 
 died:
   text: Clone {{ clone }}  just died.
-  eval: >
+  eval: |
     clone = clone + 1
     if  clone > 6:
            *** You Lose ***
@@ -45,7 +45,7 @@ died:
           return resume;
 
 instructions:
-  text: |
+  text: >
     Welcome to Paranoia!
     HOW TO PLAY:
     Just press <RETURN> until you are asked to make a choice.
@@ -65,32 +65,34 @@ instructions:
     make it, congratulations.  If not, you can try again later.
 
 
-character()
-{
-	printf("===============================================================================\n");
-	printf("The Character : Philo-R-DMD %d\n", clone);
-	printf("Primary Attributes                      Secondary Attributes\n");
-	printf("===============================================================================\n");
-	printf("Strength ..................... 13       Carrying Capacity ................. 30\n");
-	printf("Endurance .................... 13       Damage Bonus ....................... 0\n");
-	printf("Agility ...................... 15       Macho Bonus ....................... -1\n");
-	printf("Manual Dexterity ............. 15       Melee Bonus ...................... +5%%\n");
-	printf("Moxie ........................ 13       Aimed Weapon Bonus .............. +10%%\n");
-	printf("Chutzpah ...................... 8       Comprehension Bonus .............. +4%%\n");
-	printf("Mechanical Aptitude .......... 14       Believability Bonus .............. +5%%\n");
-	printf("Power Index .................. 10       Repair Bonus ..................... +5%%\n");
-	printf("===============================================================================\n");
-	printf("Credits: 160        Secret Society: Illuminati        Secret Society Rank: 1\n");
-	printf("Service Group: Power Services               Mutant Power: Precognition\n");
-	printf("Weapon: laser pistol; to hit, 40%%; type, L; Range, 50m; Reload, 6r; Malfnt, 00\n");
-	printf("Skills: Basics 1(20%%), Aimed Weapon Combat 2(35%%), Laser 3(40%%),\n        Personal Development 1(20%%), Communications 2(29%%), Intimidation 3(34%%)\n");
-	printf("Equipment: Red Reflec Armour, Laser Pistol, Laser Barrel (red),\n");
-	printf("           Notebook & Stylus, Knife, Com Unit 1, Jump suit,\n");
-	printf("           Secret Illuminati Eye-In-The-Pyramid(tm) Decoder ring,\n");
-	printf("           Utility Belt & Pouches\n");
-	printf("===============================================================================\n");
-}
-
+character:
+  text: |
+    The Character: Philo-R-DMD {{ clone }}
+    Primary Attributes            Secondary Attributes
+    =============================================================
+    Strength .............. 13    Carrying Capacity ........ 30
+    Endurance ............. 13    Damage Bonus .............  0
+    Agility ............... 15    Macho Bonus .............. -1
+    Manual Dexterity ...... 15    Melee Bonus .............. +5
+    Moxie ................. 13    Aimed Weapon Bonus ....... +10%
+    Chutzpah ............... 8    Comprehension Bonus ...... +4%
+    Mechanical Aptitude ... 14    Believability Bonus ...... +5%
+    Power Index ........... 10    Repair Bonus ............. +5%
+    =============================================================
+    Credits: 160
+    Secret Society: Illuminati  Secret Society Rank: 1
+    Service Group: Power Services
+    Mutant Power: Precognition
+    Weapon: laser pistol; to hit, 40%; type, L; Range, 50m;
+            Reload, 6r; Malfnt, 00
+    Skills: Basics 1(20%), Aimed Weapon Combat 2(35%), Laser 3(40%),
+            Personal Development 1(20%), Communications 2(29%),
+            Intimidation 3(34%)
+    Equipment: Red Reflec Armour, Laser Pistol, Laser Barrel (red),
+               Notebook & Stylus, Knife, Com Unit 1, Jump suit,
+               Secret Illuminati Eye-In-The-Pyramid(tm) Decoder ring,
+               Utility Belt & Pouches
+    =============================================================
 
 page1:
   text:
@@ -166,60 +168,58 @@ page6:
   python:
     ultra_violet=1;
   goto: page8
-}
 
 page7:
-  text:
+  text: >
     The corridor lights dim and are replaced by red battle lamps as the
     Security Breach alarms howl all around you.  You run headlong down the
     corridor and desperately windmill around a corner, only to collide with
     a squad of 12 Blue clearance Vulture squadron soldiers.
     "Stop, Slime Face," shouts the commander, "or there won't be enough of
-    you left for a tissue sample."
-    "All right, soldiers, stuff the greasy traitor into the uniform," he
-    orders, waving the business end of his blue laser scant inches from
-    your nose.
+    you left for a tissue sample. All right, soldiers, stuff the greasy
+    traitor into the uniform," he orders, waving the business end of his
+    blue laser scant inches from your nose.
     With his other hand he shakes open a white bundle to reveal a pristine
     new Ultraviolet citizen's uniform. One of the Vulture squadron
     Troubleshooters grabs you by the neck in the exotic and very painful
     Vulture Clamp(tm) death grip (you saw a special about it on the Teela
-    O'Malley show), while the rest tear off your clothes and force you
-    into the Ultraviolet uniform.  The moment you are dressed they
-    step clear and stand at attention. "Thank you for your cooperation,
-    sir," says the steely eyed leader of the Vulture Squad.
-    "We will be going about our business now."
-    With perfect timing the Vultures wheel smartly and goosestep down the
+    O'Malley show), while the rest tear off your clothes and force you into
+    the Ultraviolet uniform.
+    The moment you are dressed they step clear and stand at attention.
+    "Thank you for your cooperation, sir," says the steely eyed leader of
+    the Vulture Squad.  "We will be going about our business now." With
+    perfect timing the Vultures wheel smartly and goosestep down the
     corridor.
     Special Note: don't make the mistake of assuming that your skills have
     improved any because of the uniform; you're only a Red Troubleshooter
     traitorously posing as an Ultraviolet, and don't you forget it!
-
     Suddenly, a computer terminal comes to life beside you.
-  eval:
+  eval: |
     ultra_violet=1;
     return 8;
-}
 
 page8:
-  text:
+  text: >
     "Now, about your question, citizen.  Christmas was an old world
-    marketing ploy hto induce lower clearance citizens to purchase vast
+    marketing ploy to induce lower clearance citizens to purchase vast
     quantities of goods, thus accumulation a large amount of credit under
-    the control of a single class of citizen known as Retailers.  The
-    strategy used is to imply that all good citizens give gifts during
+    the control of a single class of citizen known as Retailers."
+
+    "The strategy used is to imply that all good citizens give gifts during
     Christmas, thus if one wishes to be a valuable member of society one
     must also give gifts during Christmas.  More valuable gifts make one a
     more valuable member, and thus did the Retailers come to control a
-    disproportionate amount of the currency.  In this way Christmas
-    eventually caused the collapse of the old world.
+    disproportionate amount of the currency."
+
+    "In this way Christmas eventually caused the collapse of the old world.
     Understandably, Christmas has been declared a treasonable practice in
-    Alpha Complex.
-    Thank you for your inquiry."
+    Alpha Complex.  Thank you for your inquiry."
+
     You continue on your way to GDH7-beta.
   goto: page10
 
 page9:
-  text:
+  text: >
     As you walk toward the tubecar that will take you to GDH7-beta, you
     pass one of the bright blue and orange Internal Security self
     incrimination stations. Inside, you can see an IS agent cheerfully
@@ -232,7 +232,7 @@ page9:
       value: page10
 
 page10:
-  text:
+  text: >
     You stroll briskly down the corridor, up a ladder, across an unrailed
     catwalk under a perilously swinging blast door in urgent need of
     repair, and into tubecar grand central.  This is the bustling hub of
@@ -241,110 +241,120 @@ page10:
     study the specially enhanced 3-D tube route map; you wouldn't be the
     first Troubleshooter to take a fast tube ride to nowhere.
   eval: |
-      if not ultra_violet:
+      if not ultra_violet
           choose(
-            ("You decide to ask The Computer about Christmas using a nearby terminal", page3)
-            ("You think you have the route worked out, so you'll board a tube train", page10);
+            ("You decide to ask The Computer about Christmas using a nearby
+                terminal", page3)
+            ("You think you have the route worked out, so you'll board a
+                tube train", page10)
           )
           if (choice==3) return choice;
-"You nervously select a tubecar and step aboard.\n");
-	if (dice_roll(2,10)<MOXIE)
-	{
-		printf("You just caught a purple line tubecar.\n");
-		return page13;
-	}
-	else
-	{
-		printf("You just caught a brown line tubecar.\n");
-		return page48;
-	}
-}
+      print("You nervously select a tubecar and step aboard.")
+      if (dice_roll(2,10)<MOXIE)
+          printf("You just caught a purple line tubecar.")
+          return page13;
+      else
+          printf("You just caught a brown line tubecar.")
+          return page48;
 
 page11:
   text: >
     The printing on the folder says "Experimental Self Briefing." You open
     it and begin to read the following:
-      Step 1: Compel the briefing subject to attend the briefing.
-       Note: See Experimental Briefing Sub Form Indigo-WY-2,\n");
-      \'Experimental Self Briefing Subject Acquisition Through The Use Of\n");
-       Neurotoxin Room Foggers.\'\n");
-"Step 2: Inform the briefing subject that the briefing has begun.\n");
-       ATTENTION: THE BRIEFING HAS BEGUN.\n");
-"Step 3: Present the briefing material to the briefing subject.\n");
-       GREETINGS TROUBLESHOOTER.\n");
-       YOU HAVE BEEN SPECIALLY SELECTED TO SINGLEHANDEDLY\n");
-       WIPE OUT A DEN OF TRAITOROUS CHRISTMAS ACTIVITY.  YOUR MISSION IS TO\n");
-       GO TO GOODS DISTRIBUTION HALL 7-BETA AND ASSESS ANY CHRISTMAS ACTIVITY\n");
-      YOU FIND THERE.  YOU ARE TO INFILTRATE THESE CHRISTMAS CELEBRANTS,\n");
-       LOCATE THEIR RINGLEADER, AN UNKNOWN MASTER RETAILER, AND BRING HIM\n");
-       BACK FOR EXECUTION AND TRIAL.  THANK YOU.  THE COMPUTER IS YOUR FRIEND.\n");
-     Step 4: Sign the briefing subject\'s briefing release form to indicate that\n");
-      the briefing subject has completed the briefing.\n");
-      ATTENTION: PLEASE SIGN YOUR BRIEFING RELEASE FORM.\n");
-Step 5: Terminate the briefing\n");
-    ATTENTION: THE BRIEFING IS TERMINATED.\n");
+
+    Step 1: Compel the briefing subject to attend the briefing.  Note: See
+    Experimental Briefing Sub Form Indigo-WY-2, 'Experimental Self Briefing
+    Subject Acquisition Through The Use Of Neurotoxin Room Foggers.'
+
+    Step 2: Inform the briefing subject that the briefing has begun.
+    ATTENTION: THE BRIEFING HAS BEGUN.
+
+    Step 3: Present the briefing material to the briefing subject.
+
+    GREETINGS TROUBLESHOOTER.
+    YOU HAVE BEEN SPECIALLY SELECTED TO SINGLEHANDEDLY WIPE OUT A DEN OF
+    TRAITOROUS CHRISTMAS ACTIVITY. YOUR MISSION IS TO GO TO GOODS
+    DISTRIBUTION HALL 7-BETA AND ASSESS ANY CHRISTMAS ACTIVITY YOU FIND
+    THERE. YOU ARE TO INFILTRATE THESE CHRISTMAS CELEBRANTS, LOCATE THEIR
+    RINGLEADER, AN UNKNOWN MASTER RETAILER, AND BRING HIM BACK FOR
+    EXECUTION AND TRIAL. THANK YOU. THE COMPUTER IS YOUR FRIEND.
+
+    Step 4: Sign the briefing subject's briefing release form to indicate
+    that the briefing subject has completed the briefing.
+    ATTENTION: PLEASE SIGN YOUR BRIEFING RELEASE FORM.
+
+    Step 5: Terminate the briefing.
+    ATTENTION: THE BRIEFING IS TERMINATED.
+
     You walk to the door and hold your signed briefing release form up to
     the plexiglass window.  A guard scrutinises it for a moment and then
     slides back the megabolts holding the door shut.  You are now free to
     continue the mission.
-	return choose(3,"You wish to ask The Computer for more information about Christmas",10,"You have decided to go directly to Goods Distribution Hall 7-beta");
-}
+
+  eval: |
+    return choose(3,"You wish to ask The Computer for more
+      information about Christmas",10,"You have decided to go
+      directly to Goods Distribution Hall 7-beta")
 
 page12:
-  text:
+  text: >
     You walk up to the door and push the button labelled "push to exit."
     Within seconds a surly looking guard shoves his face into the small
     plexiglass window. You can see his mouth forming words but you can't
     hear any of them.
-    You just stare at him blankly for a few moments until he points down to a\n");
-	printf("speaker on your side of the door.  When you put your ear to it you can barely\n");
-	printf("hear him say, \"Let\'s see your briefing release form, bud.  You aren\'t\n");
-	printf("getting out of here without it.\"\n");
-	return choose(11,"You sit down at the table and read the Orange packet",57,"You stare around the room some more");
-}
+
+    You just stare at him blankly for a few moments until he points down to
+    a speaker on your side of the door.  When you put your ear to it you
+    can barely hear him say, "Let's see your briefing release form, bud.
+    You aren't getting out of here without it."
+  choose: |
+    choose(11,"You sit down at the table and read the Orange packet",
+    57,"You stare around the room some more");
 
 page13:
-  text:
-    - You step into the shiny plasteel tubecar, wondering why the shape has
-      always reminded you of bullets.  The car shoots forward the instant
-      your feet touch the slippery gray floor, pinning you immobile against
-      the back wall as the tubecar careens toward GDH7-beta.  Your only
-      solace is the knowledge that it could be worse, much worse.
-    - Before too long the car comes to a stop.  You can see signs for
-      GDH7-beta through the window.  With a little practice you discover
-      that you can crawl to the door and pull open the latch.
+  text: >
+    You step into the shiny plasteel tubecar, wondering why the shape has
+    always reminded you of bullets.  The car shoots forward the instant
+    your feet touch the slippery gray floor, pinning you immobile against
+    the back wall as the tubecar careens toward GDH7-beta.  Your only
+    solace is the knowledge that it could be worse, much worse.
+
+    Before too long the car comes to a stop.  You can see signs for
+    GDH7-beta through the window.  With a little practice you discover that
+    you can crawl to the door and pull open the latch.
   goto: page14
-}
 
 page14:
-  text:
-    - You manage to pull yourself out of the tubecar and look around.
-      Before you is one of the most confusing things you have ever seen, a
-      hallway that is simultaneously both red and green clearance.  If this
-      is the result of Christmas then it's easy to see the evils inherent
-      in its practice.
-    - You are in the heart of a large goods distribution centre.  You can
-      see all about you evidence of traitorous secret society Christmas
-      celebration; rubber faced robots whiz back and forth selling toys to
-      holiday shoppers, simul-plast wreaths hang from every light fixture,
-      while ahead in the shadows is a citizen wearing a huge red synthetic
-      flower.
+  text: >
+    You manage to pull yourself out of the tubecar and look around.  Before
+    you is one of the most confusing things you have ever seen, a hallway
+    that is simultaneously both red and green clearance.  If this is the
+    result of Christmas then it's easy to see the evils inherent in its
+    practice.
+
+    You are in the heart of a large goods distribution centre.  You can see
+    all about you evidence of traitorous secret society Christmas
+    celebration; rubber faced robots whiz back and forth selling toys to
+    holiday shoppers, simul-plast wreaths hang from every light fixture,
+    while ahead in the shadows is a citizen wearing a huge red synthetic
+    flower.
   goto: page22
 
-
 page15:
-  text:
-    - You are set upon by a runty robot with a queer looking face and two
-      pointy rubber ears poking from beneath a tattered cap. "Hey mister,"
-      it says, "you done all your last minute Christmas shopping?  I got
-      some real neat junk here. You don't wanna miss the big day tommorrow,
-      if you know what I mean."
-    - The robot opens its bag to show you a pile of shoddy Troubleshooter
-      dolls.  It reaches in and pulls out one of them. "Look, these Action
-      Troubleshooter(tm) dolls are the neatest thing.  This one's got
-      moveable arms and when you squeeze him, his little rifle squirts
-      realistic looking napalm.  It's only 50 credits.  Oh yeah, Merry
-      Christmas.
+  text: >
+    You are set upon by a runty robot with a queer looking face and two
+    pointy rubber ears poking from beneath a tattered cap. "Hey mister," it
+    says, "you done all your last minute Christmas shopping?  I got some
+    real neat junk here. You don't wanna miss the big day tommorrow, if you
+    know what I mean."
+
+    The robot opens its bag to show you a pile of shoddy Troubleshooter
+    dolls.  It reaches in and pulls out one of them. "Look, these Action
+    Troubleshooter(tm) dolls are the neatest thing.  This one's got
+    moveable arms and when you squeeze him, his little rifle squirts
+    realistic looking napalm.  It's only 50 credits.  Oh yeah, Merry
+    Christmas."
+
   choose:
     - text: You decide to buy the doll.
       goto: page16
@@ -364,42 +374,40 @@ page16:
     action_doll = 1
   goto: page22
 
-page17()
-{
-	int i, robot_hp=15;
-	printf("You whip out your laser and shoot the robot, but not before it squeezes the\n");
-	printf("toy at you.  The squeeze toy has the same effect as a cone rifle firing napalm,\n");
-	printf("and the elfbot\'s armour has no effect against your laser.\n");
-	for(i=0;i<2;i++)
-	{
-		if(dice_roll(1,100)<=25)
-		{
-			printf("You have been hit!\n");
-			hit_points-= dice_roll(1,10);
-			if (hit_points<=0)	return new_clone(45);
-		}
-		else	printf("It missed you, but not by much!\n");
-		if(dice_roll(1,100)<=40)
-		{
-			printf("You zapped the little bastard!\n");
-			robot_hp-= dice_roll(2,10);
-			if (robot_hp<=0)
-			{
-				printf("You wasted it! Good shooting!\n");
-				printf("You will need more evidence, so you search GDH7-beta further\n");
-				if (hit_points<10) printf("after the GDH medbot has patched you up.\n");
-				hit_points=10;
-				return 22;
-			}
-		}
-		else	printf("Damn! You missed!\n");
-	};
-	printf("It tried to fire again, but the toy exploded and demolished it.\n");
-	printf("You will need more evidence, so you search GDH7-beta further\n");
-	if (hit_points<10) printf("after the GDH medbot has patched you up.\n");
-	hit_points=10;
-	return 22;
-}
+page17:
+  text: >
+    You whip out your laser and shoot the robot, but not before it squeezes
+    the toy at you. The squeeze toy has the same effect as a cone rifle
+    firing napalm, and the elfbot's armor has no effect against your laser.
+  eval: |
+    int i, robot_hp=15;
+    for(i=0;i<2;i++) {
+      if(dice_roll(1,100)<=25) {
+        printf("You have been hit!\n");
+        hit_points-= dice_roll(1,10);
+        if (hit_points<=0) return new_clone(45);
+      }
+      else printf("It missed you, but not by much!\n");
+      if(dice_roll(1,100)<=40) {
+        printf("You zapped the little bastard!\n");
+        robot_hp-= dice_roll(2,10);
+        if (robot_hp<=0) {
+          printf("You wasted it! Good shooting!\n");
+          printf("You will need more evidence, so you
+            search GDH7-beta further\n");
+          if (hit_points<10) printf("after the GDH medbot
+            has patched you up.\n");
+          hit_points=10;
+          return 22;
+        }
+      }
+      else printf("Damn! You missed!\n");
+    }
+    printf("It tried to fire again, but the toy exploded and demolished it.\n");
+    printf("You will need more evidence, so you search GDH7-beta further\n");
+    if (hit_points<10) printf("after the GDH medbot has patched you up.\n");
+    hit_points=10;
+    return 22;
 
 page18:
   text: >
@@ -415,7 +423,7 @@ page18:
     though waiting for a summons from its dark lord, the Master
     Retailer.
     WHAM, suddenly you are struck from behind.
-  eval:
+  eval: |
     if (dice_roll(2,10)<AGILITY) return page19;  # succeed roll
     else return 20;   # fail roll
 
@@ -485,21 +493,23 @@ page23:
     - text: You want to fight it out, one against twelve.
       goto: page24
 
-page24()
-{
-	printf("Golly, I never expected someone to pick this.  I haven\'t even designed\n");
-	printf("the 12 citizens who are going to make a sponge out of you.  Tell you what,\n");
-	printf("I\'ll give you a second chance.\n");
-	return choose(28,"You change your mind and say it was only a bad joke",25,"You REALLY want to shoot it out");
-}
+page24:
+  text: >
+    Golly, I never expected someone to pick this.  I haven't even
+    designed the twelve citizens who are going to make a sponge out of you.
+    Tell you what, I'll give you a second chance.
+  choose: |
+    choose(28,"You change your mind and say it was only a bad joke",
+    25,"You REALLY want to shoot it out");
 
-page25()
-{
-	printf("Boy, you really can\'t take a hint!\n");
-	printf("They\'re closing in.  Their trigger fingers are twitching, they\'re about to\n");
-	printf("shoot.  This is your last chance.\n");
-	return choose(28,"You tell them it was all just a bad joke",26,"You are going to shoot");
-}
+page25:
+  text: >
+    Boy, you really can't take a hint!  They're closing in. Their trigger
+    fingers are twitching, they're about to shoot.  This is your last
+    chance.
+  choose: |
+    choose(28,"You tell them it was all just a bad joke",
+      26,"You are going to shoot");
 
 page26:
   text: >
@@ -610,7 +620,6 @@ page33:
          return page35     # fail
       else:
          return page36     # succeed
-}
 
 page34:
   text: >
@@ -651,20 +660,23 @@ page34:
 
 page35:
   text: >
-        "Oh master," you hear through the gun barrel, "where have you been?
-    It is time for the great Christmas gifting ceremony. You had better
-    hurry and get the costume on or the trainee may begin to suspect." For
-    the second time today you are forced to wear attire not of your own
+    "Oh master," you hear through the gun barrel, "where have you been?  It
+    is time for the great Christmas gifting ceremony. You had better hurry
+    and get the costume on or the trainee may begin to suspect." For the
+    second time today you are forced to wear attire not of your own
     choosing. They zip the suit to your chin just as you hear gunfire erupt
     behind you.
-        "Oh no! Who left the door open? The commies will get in. Quick, fire
+
+    "Oh no! Who left the door open? The commies will get in. Quick, fire
     the laser cannon or we're all doomed."
-        "Too late you capitalist swine, the people's revolutionary strike
-    force claims this cannon for the proletariat's valiant struggle against
+
+    "Too late you capitalist swine, the people's revolutionary strike force
+    claims this cannon for the proletariat's valiant struggle against
     oppression. Take that, you running dog imperialist lackey. ZAP, KAPOW"
-        Just when you think that things couldn't get worse, "Aha, look what
-    we have here, the Master Retailer himself with his head caught in his
-    own cannon.  His death will serve as a symbol of freedom for all Alpha
+
+    Just when you think that things couldn't get worse, "Aha, look what we
+    have here, the Master Retailer himself with his head caught in his own
+    cannon.  His death will serve as a symbol of freedom for all Alpha
     Complex. Fire the cannon."
   eval: |
     new_clone(32)
@@ -929,7 +941,7 @@ page52:
   goto: page2
 
 page53:
-  text: You tell The Computer about:
+  text: "You tell The Computer about:"
   choose:
     - text: >
         The commies who have infiltrated the Troubleshooter Training Course
@@ -939,19 +951,20 @@ page53:
       goto: page54
 
 page54:
-  text:
-    - "Do not try to change the subject, Troubleshooter," says The
-      Computer.  "It is a serious crime to ask about the communists.  You
-      will be terminated immediately.  Thank you for your inquiry.  The
-      Computer is your friend."
-    - Steel bars drop to your left and right, trapping you here in the
-      hallway. A spotlight beams from the computer console to brilliantly
-      iiluminate you while the speaker above your head rapidly repeats
-      "Traitor, Traitor, Traitor." It doesn't take long for a few guards to
-      notice your predicament and come to finish you off.\n");
-	if (blast_door==0) return new_clone(45);
-	else		   return new_clone(32);
-}
+  text: >
+    "Do not try to change the subject, Troubleshooter," says The Computer.
+    "It is a serious crime to ask about the communists.  You will be
+    terminated immediately.  Thank you for your inquiry.  The Computer is
+    your friend."
+
+    Steel bars drop to your left and right, trapping you here in the
+    hallway. A spotlight beams from the computer console to brilliantly
+    iiluminate you while the speaker above your head rapidly repeats
+    "Traitor, Traitor, Traitor." It doesn't take long for a few guards to
+    notice your predicament and come to finish you off.
+  eval: |
+    if (blast_door==0) return new_clone(45);
+    else return new_clone(32);
 
 page55:
   text: >
